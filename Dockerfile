@@ -26,5 +26,6 @@ RUN pip install -U pymoo
 COPY --from=builder /app/src/CarlSAT_2021-main/CarlSAT .
 COPY --from=builder /app/src/CarlSAT_2021-main/test1.wcard .
 COPY . .
+CMD ["python3", "src/wrapper.py", "test1.wcard", "2"]
 
 
