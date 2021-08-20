@@ -21,9 +21,10 @@ RUN make clean && make
 
 FROM base as exec
 WORKDIR /app/
-#RUN apt update -y && apt -y install python3 && apt -y install pip
-RUN apt update -y && apt -y install miniconda
+RUN apt update -y && apt -y install python3 && apt -y install pip
+#RUN apt update -y && apt -y install miniconda
 RUN pip install -U pymoo && pip install -U numpy
+#RUN conda install 
 
 
 COPY --from=builder /app/src/CarlSAT_2021-main/CarlSAT .
