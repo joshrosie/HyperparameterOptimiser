@@ -1,11 +1,9 @@
-# from pymoo.algorithms.so_de import DE
-# from pymoo.factory import get_problem
-# from pymoo.operators.sampling.latin_hypercube_sampling import LatinHypercubeSampling
-# from pymoo.optimize import minimize
+
 import subprocess
 import tempfile
 import os
 import sys
+import pymooProblem
 
 
 def Convert(string):
@@ -62,6 +60,8 @@ def main():
         # Convert the timeTaken into its millisecond representation
         timeTakenMs = eval(timeTaken) * 1000
         print(timeTakenMs)
+
+        pymooProblem.geneticAlgorithm()
 
 
 
