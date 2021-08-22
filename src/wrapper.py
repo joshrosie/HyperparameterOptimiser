@@ -25,8 +25,9 @@ def main():
 
         # This runs whatever shell command you put into it and the console output is stored in the temporary file
         proc = subprocess.Popen(Convert(sLine), stdout=tempf) #?
-       
-
+        #proc = subprocess.Popen(['pwd'],stdout=tempf)
+       # tempf.seek(0)
+       # print(tempf.readline())
         proc.wait()  # Waiting on child process to finish i.e. waiting until CarlSat is finished and displayed its output
 
         # Go to the end of the file and then back a bit to just have the last two lines of output left.
