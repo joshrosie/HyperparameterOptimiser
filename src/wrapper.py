@@ -13,8 +13,8 @@ def Convert(string):
 
 def main():
 
-    filename = sys.argv[1]
-    timeout = sys.argv[2]
+    filename = sys.argv[1]  #e.g. test1.wcard
+    timeout = sys.argv[2]   #e.g. 2 (seconds)
 
     sLine = './CarlSAT -a 2 -b 4 -c 200 -e 1000 -f 5 -r 30 -x 4 -t ' + timeout + ' -v 2 -z ' + filename
 
@@ -24,7 +24,8 @@ def main():
     with tempfile.TemporaryFile() as tempf:
 
         # This runs whatever shell command you put into it and the console output is stored in the temporary file
-        proc = subprocess.Popen(Convert(sLine), stdout=tempf)
+        proc = subprocess.Popen(Convert(sLine), stdout=tempf) #?
+       
 
         proc.wait()  # Waiting on child process to finish i.e. waiting until CarlSat is finished and displayed its output
 
@@ -55,7 +56,7 @@ def main():
 
         # Extract the time stamp of when the best cost was found (in this run of CarlSat)
         timeTaken = stringLine[(posChar + 2):(len(stringLine) - 3)]
-
+        
 
         # Convert the timeTaken into its millisecond representation
         timeTakenMs = eval(timeTaken) * 1000

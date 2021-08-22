@@ -2,6 +2,8 @@ from pymoo.algorithms.so_de import DE
 from pymoo.factory import get_problem
 from pymoo.operators.sampling.latin_hypercube_sampling import LatinHypercubeSampling
 from pymoo.optimize import minimize
+from pymoo.configuration import Configuration
+Configuration.show_compile_hint = False
 import numpy as np
 
 def geneticAlgorithm():
