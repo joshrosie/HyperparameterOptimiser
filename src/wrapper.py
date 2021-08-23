@@ -5,6 +5,8 @@ import os
 import sys
 import pymooProblem
 
+filename = sys.argv[1]  #e.g. test1.wcard
+timeout = sys.argv[2]   #e.g. 2 (seconds)
 
 def Convert(string):
     new_list = list(string.split(" "))
@@ -12,12 +14,14 @@ def Convert(string):
 
 
 def main():
+    pymooProblem.geneticAlgorithm()
 
-    filename = sys.argv[1]  #e.g. test1.wcard
-    timeout = sys.argv[2]   #e.g. 2 (seconds)
+    
+def runCarlSAT_extract(a,b,c,e,f,r,x):
 
-    sLine = './CarlSAT -a 2 -b 4 -c 200 -e 1000 -f 5 -r 30 -x 4 -t ' + timeout + ' -v 2 -z ' + filename
-
+    #Need to find something less DISgusting then this to build the command line string
+    sLine = './CarlSAT -a ' + str(a) + ' -b ' + str(b) + ' -c ' + str(c) +  ' -e ' + str(e) + ' -f ' + str(f) + ' -r ' + str(r) + ' -x ' + str(x) + ' -t ' + str(timeout) + ' -v 2 -z ' + filename
+    
     # The following execution of CarlSat and extraction of console output will most likely be moved to a solver object.
     #Inevitably the cost and timestamp will also be passed into a pymoo problem object/ function as its objectives
 
@@ -46,8 +50,9 @@ def main():
 
 
         # Extract the best cost (in this run of CarlSat)
-        cost = stringLine[(posChar + 2):(len(stringLine) - 1)]
-        print(cost)
+        cost = 0
+        cost = eval(stringLine[(posChar + 2):(len(stringLine) - 1)])
+       # print(cost)
 
         stringLine = str(tempf.readline(), 'utf-8')
 
@@ -61,9 +66,15 @@ def main():
 
         # Convert the timeTaken into its millisecond representation
         timeTakenMs = eval(timeTaken) * 1000
-        print(timeTakenMs)
+        maxTimeMs = eval(timeout) * 1000 
 
-        pymooProblem.geneticAlgorithm()
+        #print(timeTakenMs)
+
+        return [cost,timeTakenMs,maxTimeMs]    
+
+
+
+        
 
 
 
