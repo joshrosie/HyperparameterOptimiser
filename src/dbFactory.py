@@ -1,12 +1,11 @@
 import mysql.connector as mysql
 
-
-
+# Create a database object on the local host. Need to figure out how to make a database on a docker image
 def dbCreate():
     db = mysql.connect(
     host = "localhost",
     user = "root",
-    passwd = "Joshu@2000"
+    password = "???"
     )
     cursor = db.cursor()
     cursor.execute("CREATE DATABASE HyperOpt")
@@ -15,8 +14,8 @@ def dbCreateTable():
     db = mysql.connect(
     host = "localhost",
     user = "root",
-    passwd = "dbms",
+    password = "???",
     database = "HyperOpt"
     )
     cursor = db.cursor()
-    cursor.execute("CREATE TABLE runAncestry (runID INT NOT NULL AUTO_INCREMENT PRIMARY KEY, )")
+    cursor.execute("CREATE TABLE runAncestry (runID INT, aParam INT, bParam INT, cParam INT, eParam INT, fParam INT, rParam INT, xParam INT )")
