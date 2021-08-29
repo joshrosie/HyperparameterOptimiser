@@ -15,6 +15,3 @@ COPY ./sqlScripts/ /docker-entrypoint-initdb.d/
 
 #Eventually the parameters passed into the wrapper class should be more extensive than just the problem card name.
 CMD ["python3", "wrapper.py", "test1.wcard", "2"]   
-
-
-
