@@ -3,7 +3,7 @@ FROM ubuntu:20.10 AS base
 WORKDIR /app/
 RUN apt update -y && apt -y install python3 && apt -y install pip
 
-RUN pip install -U pymoo && pip install -U numpy
+RUN pip install -U pymoo && pip install -U numpy && pip install -U mysqlclient && pip install mysql-connector-python && pip install pymysql
 
 COPY . .
 
