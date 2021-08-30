@@ -1,17 +1,19 @@
 FROM ubuntu:20.10 AS base
 
-
-### test ###
-FROM mysql as DB
-
 WORKDIR /app/
 RUN apt update -y && apt -y install python3 && apt-get -y install pip
 
 RUN pip install -U pymoo && pip install -U numpy
 
-COPY . .
+### test ###
+FROM mysql as DB
+
+
+WORKDIR /app/
+
 ENV MYSQL_DATABASE company
 COPY ./sqlScripts/ /docker-entrypoint-initdb.d/ 
+COPY . .
 ### Command to start environment w/ database:
 #$ docker run -d -p 3306:3306 --name test \
 # -e MYSQL_ROOT_PASSWORD=pw
