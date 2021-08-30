@@ -12,7 +12,7 @@ sudo docker build -t $dockerimage .
 echo -e "\e[1;36m Starting docker container:\e[0m" $container
 sudo docker stop $container 2>&1 >/dev/null
 sudo docker rm $container 2>&1 >/dev/null
-sudo docker run -d -p 3306:3306 --name=$container -e MYSQL_ROOT_PASSWORD=$sql_pword $dockerimage
+sudo docker run -d -p 3310:3310 --name=$container -e MYSQL_ROOT_PASSWORD=$sql_pword $dockerimage
 
 echo -e "\e[1;36m Container started \e[0m"
 echo ""
