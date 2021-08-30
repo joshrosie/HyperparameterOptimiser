@@ -9,9 +9,9 @@ FROM mysql as DB
 
 WORKDIR /app/
 
-RUN apt update -y && apt -y install python3 && apt-get -y install python3-pip
+RUN apt update -y && apt -y install python3 && apt-get -y install python3-pip 
 
-RUN pip3 install -U pymoo && pip3 install -U numpy
+RUN pip3 install -U pymoo && pip3 install -U numpy && pip3 install -U mysql-connector-python 
 
 ENV MYSQL_DATABASE company
 RUN apt update -y && apt -y install python3
