@@ -2,7 +2,7 @@
 import subprocess
 import tempfile
 import sys
-#from GenAlgFrameWork import geneticAlgorithm;
+from pymooProblem import geneticAlgorithm;
 
 #Once we have a better understanding of how we should allow the user to
 # interact with the system (like specifying incremental, accessing ancestry, starting from scratch etc.)
@@ -10,58 +10,66 @@ import sys
 
 filename = sys.argv[1]  #e.g. test1.wcard
 timeout = sys.argv[2]   #e.g. 2 (seconds)
-testArg = sys.argv[3] #test
 
 def Convert(string):
     new_list = list(string.split(" "))
     return new_list
 
 
-#def main():
-  #  geneticAlgorithm()
+def main():
+    geneticAlgorithm()
 
-def mainTest():
-    print("running test...")
-    print(runCarlSAT(2,4,200,1000,5,30,4))
-    print("finished!")
-
-
-def runCarlSAT(a,b,c,e,f,r,x):
     
-    sLine = './CarlSAT -a {} -b {} -c {} -e {} -f {} -r {} -x {} -t {} -v 2 -z {}'.format(a, b, c, e, f, r, x, timeout, filename)
+def runCarlSAT_extract(a,b,c,e,f,r,x):
+
+
+    sLine = './CarlSAT -a {} -b {} -c {} -e {} -f {} -r {} -x {} -t {} -v 2 -z {}'.format(a,b,c,e,f,r,x,timeout,filename)
+    # The following execution of CarlSat and extraction of console output will most likely be moved to a solver object.
+    #Inevitably the cost and timestamp will also be passed into a pymoo problem object/ function as its objectives
 
     with tempfile.TemporaryFile() as tempf:
 
-        proc = subprocess.Popen(list(sline.split(" ")), stdout=tempf)
-        proc.wait()
-        #_ potentially write to database
+        # This runs whatever shell command you put into it and the console output is stored in the temporary file
+        proc = subprocess.Popen(Convert(sLine), stdout=tempf) #?
+  
+        proc.wait()  # Waiting on child process to finish i.e. waiting until CarlSat is finished and displayed its output
 
-    return extractObjectives(tempf)
+        # Go to the end of the file and then back a bit to just have the last two lines of output left.
+        tempf.seek(tempf.tell() - 27)
+        # From current understanding - it is only the last two lines of the output that is relevant.
+
+        # Convert bytes into string
+        stringLine = str(tempf.readline(), 'utf-8')
 
 
-def extractObjectives(tempf):
+        # Find the 'o' character that always comes before the cost value
+        posChar = stringLine.find('o')
 
-        tempf.seek(-27,2) #get last 27 characters
 
-        cost = eval(str(tempf.readline(), 'utf-8').split()[1])
-        time = eval(str(tempf.readline(), 'utf-8').split()[3])
-            
-        #may have to get out improvement objective from CarlSAT or otherwise we may need to calculate that and return back to GA
+        # Extract the best cost (in this run of CarlSat)
+        cost = 0
+        cost = eval(stringLine[(posChar + 2):(len(stringLine) - 1)])
+       # print(cost)
+
+        stringLine = str(tempf.readline(), 'utf-8')
+
+        # Find the ':' character that always comes before the time stamp value
+        posChar = stringLine.find(':')
+
+
+        # Extract the time stamp of when the best cost was found (in this run of CarlSat)
+        timeTaken = stringLine[(posChar + 2):(len(stringLine) - 3)]
         
-        timeTakenMs = time * 1000
-        maxTimeMs = eval(timeout) * 1000
 
-        #maybe return the objective here:
-             ######### finalCost = bestCost + timeStamp_of_bestCost/ max_Time. Where max_Time is the timeout specified by the user
-        #obj_val = cost + (timeTakenMs / maxTimeMs)
+        # Convert the timeTaken into its millisecond representation
+        timeTakenMs = eval(timeTaken) * 1000
+        maxTimeMs = eval(timeout) * 1000 
 
-        return [cost,timeTakenMs,maxTimeMs]
+        #print(timeTakenMs)
 
-# def write():
-#     pass
+        return [cost,timeTakenMs,maxTimeMs]    
 
-if sys.argv[3] == 'true':
-    mainTest()
-else:
-    if __name__ == "__main__":
+
+
+if __name__ == "__main__":
     main()
