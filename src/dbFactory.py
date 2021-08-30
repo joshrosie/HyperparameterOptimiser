@@ -5,7 +5,7 @@ def dbCreate():
     db = mysql.connect(
     host = "localhost",
     user = "root",
-    password = "???"
+    password = "supersecret"
     )
     cursor = db.cursor()
     cursor.execute("CREATE DATABASE HyperOpt")
@@ -18,4 +18,4 @@ def dbCreateTable():
     database = "HyperOpt"
     )
     cursor = db.cursor()
-    cursor.execute("CREATE TABLE runAncestry (runID INT, aParam INT, bParam INT, cParam INT, eParam INT, fParam INT, rParam INT, xParam INT )")
+    cursor.execute("CREATE TABLE runAncestry (runID INT, aParam INT, bParam INT, cParam INT, eParam INT, fParam INT, rParam INT, xParam INT, evol INT, wcard CHAR(10), obj_val DOUBLE(8,5))")
