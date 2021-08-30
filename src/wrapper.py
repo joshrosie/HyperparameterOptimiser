@@ -34,13 +34,15 @@ def runCarlSAT_extract(a,b,c,e,f,r,x):
   
         proc.wait()  # Waiting on child process to finish i.e. waiting until CarlSat is finished and displayed its output
 
+        
         # Go to the end of the file and then back a bit to just have the last two lines of output left.
         tempf.seek(tempf.tell() - 27)
+        
         # From current understanding - it is only the last two lines of the output that is relevant.
 
         # Convert bytes into string
         stringLine = str(tempf.readline(), 'utf-8')
-
+        
 
         # Find the 'o' character that always comes before the cost value
         posChar = stringLine.find('o')
