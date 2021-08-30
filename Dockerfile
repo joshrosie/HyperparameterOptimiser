@@ -1,23 +1,25 @@
 FROM ubuntu:20.10 AS base
 
 WORKDIR /app/
-RUN apt update -y && apt -y install python3 && apt -y install pip
+RUN apt update -y && apt -y install python3 && apt-get -y install pip
 
 RUN pip install -U pymoo && pip install -U numpy
 
-COPY . .
-
-WORKDIR /app/src/
 ### test ###
-FROM mysql
+FROM mysql as DB
+
+
+WORKDIR /app/
+
 ENV MYSQL_DATABASE company
 RUN apt update -y && apt -y install python3
 RUN apt -y install python3-pip
 RUN pip3 install -U pymoo && pip3 install -U numpy
 COPY ./sqlScripts/ /docker-entrypoint-initdb.d/ 
+COPY . .
 ### Command to start environment w/ database:
-#$ docker run -d -p 3307:3307 --name test \
-# -e MYSQL_ROOT_PASSWORD=pw capstone-project
+#$ docker run -d -p 3306:3306 --name test \
+# -e MYSQL_ROOT_PASSWORD=pw
 
 #NOTE: may have to play around with port number to get it to work
 

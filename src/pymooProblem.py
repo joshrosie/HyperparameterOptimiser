@@ -28,7 +28,7 @@ def geneticAlgorithm():
     #DE algorithm currently with default, best practice values for parameters. We may find through experimention that some
     # parameters could be tweaked, but there is no "golden" rule - we have to discover it empirically.
     # However, our project is not focused on tuning these parameters. We are tuning what goes into CarlSAT.
-    
+
     algorithm = DE(
     pop_size = 36, sampling=get_sampling("int_random"),    #Need to decide upon best pop_size. Apparently it should be 36 - according to Johan, but 128 seems to be faster; 
                                                            #however, larger values don't always find a better solution than 36

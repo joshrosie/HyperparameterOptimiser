@@ -32,6 +32,9 @@ class solverProblem(Problem):
         # The variables are also constrained to being only integers, but that is controlled by the GA,
         # not in the problem definition.
 
+       #  0 <= x1,x2,x3 .. X7 <= 19
+        # X1,X2,X3 .. X7 ARE ALL INTEGERS (managed by GA)
+        
          super().__init__(n_var=7, n_obj=1, n_constr=0, xl=[0,0,0, 0,0,0,0], 
         xu=[19,19,19,19,19,19,19], 
         elementwise_evaluation=True, **kwargs)
@@ -39,6 +42,7 @@ class solverProblem(Problem):
     def _evaluate(self, x, out, *args, **kwargs):   #The "x" param are the actual values chosen by the GA. 
                                                     #It is a one-dimensional array in this case, because we have set elementwise evaluation to true.
         
+   
         
         #Run carlSAT with the parameters chosen by the genetic algorithm. The GA spits out integers
         # between 0 and 19, which correspond to indexes in the parameter arrays.
@@ -60,11 +64,16 @@ class solverProblem(Problem):
         # From Johan's email, the formula is understood to be:
         # finalCost = bestCost + timeStamp_of_bestCost/ max_Time. Where max_Time is the timeout specified by the user
         
-        cost = objectives[0] + objectives[1]/objectives[2]
+        finalCost = objectives[0] + objectives[1]/objectives[2] #Maybe we change the weight of best_cost vs time_stamp/ max_time
+        
        # print(cost)
         
         #Add the cost to the dictionary (this is how the GA keeps track of the previous scores)
-        out["F"] = np.column_stack([cost])
+        out["F"] = np.column_stack([finalCost])
+       
+
+
+     
 
 
 
