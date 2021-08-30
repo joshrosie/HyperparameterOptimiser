@@ -11,10 +11,10 @@ import numpy as np
 from solverProblem import solverProblem 
 import copy
 
- def initialize(n_threads,population,CrossOverRate,F,term_n_eval): #global instance variables? #like setting the settings. 
+ def initialize(n_threads,population,CrossOverRate,F,term_n_eval):  #global instance variables? #like setting the settings. 
     
     algorithm = DE(
-        pop_size = 36, sampling=get_sampling("int_random"),    #Best pop_size is dependent on host's number of cores
+        pop_size = 36, sampling=get_sampling("int_random"),  #Best pop_size is dependent on host's number of cores
         variant="DE/rand/1/bin",
         CR=0.9,
         F=0.8,
