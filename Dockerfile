@@ -11,10 +11,13 @@ WORKDIR /app/src/
 ### test ###
 FROM mysql
 ENV MYSQL_DATABASE company
+RUN apt update -y && apt -y install python3
+RUN apt -y install python3-pip
+RUN pip3 install -U pymoo && pip3 install -U numpy
 COPY ./sqlScripts/ /docker-entrypoint-initdb.d/ 
 ### Command to start environment w/ database:
-#$ docker run -d -p 3306:3306 --name test \
-# -e MYSQL_ROOT_PASSWORD=supersecret capstone-project
+#$ docker run -d -p 3307:3307 --name test \
+# -e MYSQL_ROOT_PASSWORD=pw capstone-project
 
 #NOTE: may have to play around with port number to get it to work
 
