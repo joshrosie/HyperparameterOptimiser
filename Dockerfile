@@ -1,15 +1,17 @@
 FROM ubuntu:20.10 AS base
 
 WORKDIR /app/
-RUN apt update -y && apt -y install python3 && apt-get -y install pip
 
-RUN pip install -U pymoo && pip install -U numpy
 
 ### test ###
 FROM mysql as DB
 
 
 WORKDIR /app/
+
+RUN apt update -y && apt -y install python3 && apt-get -y install python3-pip
+
+RUN pip3 install -U pymoo && pip3 install -U numpy
 
 ENV MYSQL_DATABASE company
 RUN apt update -y && apt -y install python3
