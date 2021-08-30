@@ -14,6 +14,9 @@ RUN apt update -y && apt -y install python3 && apt-get -y install python3-pip
 RUN pip3 install -U pymoo && pip3 install -U numpy
 
 ENV MYSQL_DATABASE company
+RUN apt update -y && apt -y install python3
+RUN apt -y install python3-pip
+RUN pip3 install -U pymoo && pip3 install -U numpy
 COPY ./sqlScripts/ /docker-entrypoint-initdb.d/ 
 COPY . .
 ### Command to start environment w/ database:
