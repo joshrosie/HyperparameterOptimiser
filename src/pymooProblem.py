@@ -8,7 +8,7 @@ from multiprocessing.pool import ThreadPool
 
 Configuration.show_compile_hint = False
 import numpy as np
-from solverProblem import solverProblem 
+from solverProblem import solverProblem
 import copy
 
 def geneticAlgorithm():
@@ -59,25 +59,6 @@ def geneticAlgorithm():
     #Eventually we will change this to be more appropriate once we have the parameter factory class.
     print("Best solution found: \nX = %s\nF = %s" % (res.X, res.F))     
 
-  
-    # termination = get_termination("n_gen", 5)
-    # # perform a copy of the algorithm to ensure reproducibility
-    # obj = copy.deepcopy(algorithm)
-
-    # # let the algorithm know what problem we are intending to solve and provide other attributes
-    # obj.setup(problem, termination=termination, seed=1)
-
-    # # until the termination criterion has not been met
-    # while obj.has_next():
-
-    # # perform an iteration of the algorithm
-    #     obj.next()
-
-    # # access the algorithm to print some intermediate outputs
-    #     print(f"gen: {obj.n_gen} n_nds: {len(obj.opt)} constr: {obj.opt.get('CV').min()} ideal: {obj.opt.get('F').min(axis=0)}")
-
-    # # finally obtain the result object
-    # result = obj.result()
     
     pool.close()
 

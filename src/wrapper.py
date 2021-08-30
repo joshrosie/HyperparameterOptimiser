@@ -2,7 +2,7 @@
 import subprocess
 import tempfile
 import sys
-from pymooProblem import geneticAlgorithm;
+import pymooProblem
 
 #Once we have a better understanding of how we should allow the user to
 # interact with the system (like specifying incremental, accessing ancestry, starting from scratch etc.)
@@ -17,7 +17,7 @@ def Convert(string):
 
 
 def main():
-    geneticAlgorithm()
+    pymooProblem.geneticAlgorithm()
 
     
 def runCarlSAT_extract(a,b,c,e,f,r,x):

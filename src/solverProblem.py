@@ -1,6 +1,6 @@
 from pymoo.model.problem import Problem
 import numpy as np
-from wrapper import runCarlSAT_extract
+import wrapper
 
 
 #These arrays make up the 20 options available for the genetic algorithm to use.
@@ -49,7 +49,7 @@ class solverProblem(Problem):
         #CarlSAT_extract() returns the objectives (i.e. the best cost with its corresponding timestamp and the timeout)
 
 
-        objectives = runCarlSAT_extract(
+        objectives = wrapper.runCarlSAT_extract(
         aParams[x[0]], bParams[x[1]], cParams[x[2]],
         eParams[x[3]],fParams[x[4]],rParams[x[5]],xParams[x[6]])
 
