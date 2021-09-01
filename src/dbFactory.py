@@ -19,3 +19,4 @@ def dbCreateTable():
     )
     cursor = db.cursor()
     cursor.execute("CREATE TABLE runAncestry (runID INT, aParam INT, bParam INT, cParam INT, eParam INT, fParam INT, rParam INT, xParam INT, evol INT, wcard CHAR(10), obj_val DOUBLE(8,5))")
+n
