@@ -6,22 +6,16 @@ import sys
 filename = sys.argv[1]  #e.g. test1.wcard
 timeout = sys.argv[2]   #e.g. 2 (seconds)
 testArg = sys.argv[3]   #test
-#stateArg = sys.argv[4]  #rerun with parameters
+
 
 def Convert(string):
     new_list = list(string.split(" "))
     return new_list
-#testing!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
 
 def main():
     solver = Solver()
-
-    if #statefile exists
-        #extract parameters for GA
-        resumeGeneticAlgorithm(parameters)
-    else: #run from scratch
-            result = solver.geneticAlgorithm()
-
+    result = solver.geneticAlgorithm()
     solver.report(result)
     
 
