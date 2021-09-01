@@ -9,13 +9,15 @@
 #by other team members.
 #The entire mysql schema will also be backed-up (this is through the --all-databases command) but also only kept locally.
 
+#Dump for git repo (this will be shared with the whole team) then stage
+sudo docker exec mysql-db sh -c 'exec mysqldump hyperopt -uroot -ppw' >./sqlscripts/hyperopt.sql 2> /dev/null
+git add sqlscripts/
 
+#Dump for local (not shared with team, just in case of a problem)
 mkdir -p dbBackups
-sudo docker exec mysql-db sh -c 'exec mysqldump hyperopt -uroot -ppw' >./sqlscripts/hyperopt.sql >./dbBackups/local_hyperopt_backup.sql  2> /dev/null 
+sudo docker exec mysql-db sh -c 'exec mysqldump hyperopt -uroot -ppw' >./dbBackups/local_hyperopt_backup.sql  2> /dev/null 
 
 sudo docker exec mysql-db sh -c 'exec mysqldump --all-databases -uroot -ppw' > ./dbBackups/dbBackup_complete.sql 2> /dev/null
-
-git add sqlscripts/
 
 #Source file staging
 git add src/
