@@ -10,14 +10,16 @@
 #The entire mysql schema will also be backed-up (this is through the --all-databases command) but also only kept locally.
 
 #Dump for git repo (this will be shared with the whole team) then stage
-sudo docker exec mysql-db sh -c 'exec mysqldump hyperopt -uroot -ppw' >./sqlscripts/hyperopt.sql 2> /dev/null
+sudo docker exec mysql-db sh -c 'exec mysqldump hyperopt -uroot -ppw' >./sqlscripts/hyperopt.sql
 git add sqlscripts/
 
-#Dump for local (not shared with team, just in case of a problem)
-mkdir -p dbBackups
-sudo docker exec mysql-db sh -c 'exec mysqldump hyperopt -uroot -ppw' >./dbBackups/local_hyperopt_backup.sql  2> /dev/null 
+#Dump for incremental backup
+NOW=$(date +"%m-%d-%y-%T")
+echo -e "\e[1;36mBacking up hyperopt database to dbBackups, filename = backup_${NOW}\e[0m"
 
-sudo docker exec mysql-db sh -c 'exec mysqldump --all-databases -uroot -ppw' > ./dbBackups/dbBackup_complete.sql 2> /dev/null
+sudo docker exec mysql-db sh -c 'exec mysqldump hyperopt -uroot -ppw' >./dbBackups/backup_$NOW.sql 
+git add dbBackups/
+
 
 #Source file staging
 git add src/
@@ -30,4 +32,3 @@ git add README.md
 git add updateLocalHyperDB.sh
 
 echo -e "\e[1;36mStaging complete. Remember to commit now!\n"
-echo -e "NOTE, do not manually add dbBackups to your commit. That is meant to be kept locally (i.e. not in our repo) just in case.\e[0m\n"

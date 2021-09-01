@@ -57,10 +57,9 @@ else
 	echo -e "\e[1;36m Using docker volume:\e[0m ${volume}"	
 fi
 
-sudo docker run -d -p 3310:3310 --name=$container -v $volume:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=$sql_pword $dockerimage >/dev/null
+sudo docker run -d -p 3310:3310 --name=$container -v $volume:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=$sql_pword $dockerimage
 
 echo -e "\e[1;36m Container started \e[0m\n"
-echo -e "\e[1;36m :\e[0m"
 
 echo -e "\e[1;32m Executing interactive container with bash terminal\n\n If you haven't yet already, please see README.md file for steps on how to run our program.\n It is available in this current directory (type more README.md)\n\n\e[0m"
 sudo docker exec -it $container bash
