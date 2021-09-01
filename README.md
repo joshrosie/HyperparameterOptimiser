@@ -8,9 +8,9 @@ Group:
 
 Instructions for Dockerfile build:
 
-	To build the docker environment, run the script automate.sh
+	To build the docker environment, run the script autodocker.sh
 	This can easily be done by typing the following in the project
-	directory: ./automate.sh
+	directory: ./autodocker.sh
 
 	NOTE 1: The script will search for a docker image by the name of "dimage"
 	and if it does not find it, it will build the image from the
@@ -21,7 +21,7 @@ Instructions for Dockerfile build:
 	not reflect in the docker environment if the image wasn't rebuilt.
 
 	However, you can force the script to skip rebuilding the image by running the script
-	as follows: ./automate.sh skip
+	as follows: ./autodocker.sh skip
 	The use case for this would be if you haven't made any changes to
 	the source files and just want to run CarlSAT as is.
 

@@ -4,6 +4,7 @@
 
 dockerimage=dimage
 container=mysql-db
+volume=mysql-vol-cap
 sql_pword=pw
 
 #Checks to see if the specified image already exists.
@@ -47,10 +48,19 @@ fi
 #The port number stuff might need to be changed (could cause an error if the client has a container running on that port.
 echo -e "\e[1;36m Starting docker container:\e[0m" $container
 
+#Check to see if the docker volume exists. If it doesn't create it, otherwise do nothing.
+if ( !(sudo docker volume ls -q | grep -q $volume >/dev/null) ) ; then
+	docker volume create $volume >/dev/null
+	echo -e "\e[1;36m Created docker volume:\e[0m ${volume}\n"
+	
+else
+	echo -e "\e[1;36m Using docker volume:\e[0m ${volume}"	
+fi
 
-sudo docker run -d -p 3310:3310 --name=$container -v "$(pwd)"/mysql_data:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=$sql_pword $dockerimage >/dev/null
-	 
+sudo docker run -d -p 3310:3310 --name=$container -v $volume:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=$sql_pword $dockerimage >/dev/null
 
 echo -e "\e[1;36m Container started \e[0m\n"
+echo -e "\e[1;36m :\e[0m"
+
 echo -e "\e[1;32m Executing interactive container with bash terminal\n\n If you haven't yet already, please see README.md file for steps on how to run our program.\n It is available in this current directory (type more README.md)\n\n\e[0m"
 sudo docker exec -it $container bash
