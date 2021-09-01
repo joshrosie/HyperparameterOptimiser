@@ -27,6 +27,7 @@ git add autodocker.sh
 git add gitAuto.sh
 git add Dockerfile
 git add README.md
+git add updateLocalHyperDB.sh
 
-echo -e "Staging complete. Remember to commit now!\n"
-echo -e "NOTE, do not manually add dbBackups to your commit. That is meant to be kept locally (i.e. not in our repo) just in case.\n"
+echo -e "\e[1;36mStaging complete. Remember to commit now!\n"
+echo -e "NOTE, do not manually add dbBackups to your commit. That is meant to be kept locally (i.e. not in our repo) just in case.\e[0m\n"
