@@ -9,7 +9,10 @@
 #by other team members.
 #The entire mysql schema will also be backed-up (this is through the --all-databases command) but also only kept locally.
 
+
+mkdir -p dbBackups
 sudo docker exec mysql-db sh -c 'exec mysqldump hyperopt -uroot -ppw' >./sqlscripts/hyperopt.sql >./dbBackups/local_hyperopt_backup.sql  2> /dev/null 
+
 sudo docker exec mysql-db sh -c 'exec mysqldump --all-databases -uroot -ppw' > ./dbBackups/dbBackup_complete.sql 2> /dev/null
 
 git add sqlscripts/
@@ -23,4 +26,5 @@ git add gitAuto.sh
 git add Dockerfile
 git add README.md
 
-echo -e "\nStaging complete. Remember to commit now!\n"
+echo -e "Staging complete. Remember to commit now!\n"
+echo -e "NOTE, do not manually add dbBackups to your commit. That is meant to be kept locally (i.e. not in our repo) just in case.\n"
