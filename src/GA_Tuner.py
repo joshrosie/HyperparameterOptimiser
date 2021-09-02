@@ -12,12 +12,10 @@ import copy
 
 class GA_Tuner:
 
-    #our tester class could try with different algorithms
 
     #solver will always have the same algorithm (DE) and problem number
     #what changes is just the way we run the GA (from state or scratch)
     def __init__(self, n_threads=64, problem=None, algorithm=None, populationSize=36):
-        #self.pool = threadPool
         self.pool = ThreadPool(n_threads)
         if problem is None: #DC
             self.problem = SolverProblem.SolverProblem(parallelization = ('starmap', self.pool.starmap))

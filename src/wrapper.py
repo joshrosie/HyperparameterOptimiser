@@ -13,22 +13,14 @@ pf = ParamFunhouse()
 
 def main():
 
-    #pool = ThreadPool(64)
-    #problem = SolverProblem(parallelization = ('starmap', pool.starmap))
-
-    #tuner = GA_Tuner(ownProblem = problem,)
     tuner = GA_Tuner.GA_Tuner()
     result = tuner.geneticAlgorithm()
 
     tuner.report(result)
 
-    # solver = ()
-    # result = GA_Tuner.geneticAlgorithm()
-    # solver.report(result)
-
 def mainTest():
+    print("entered testing")
     if testCall == 'carlSAT' or testCall == 'obj' or testCall == 'cost':
-        print("entered testing")
         pf = ParamFunhouse()
         x=[1,2,1,4,6,10,14]
         print("running test...")
@@ -43,15 +35,14 @@ def mainTest():
             if testCall == 'cost':
                 cost = calculateCosts(objectives)
                 print(str(cost) + " is the associated cost")
+                
 
 #this takes in pymoo parameters, runs the solver with those parameters
 #extracts the objectives and returns the calculated cost(s) associated with that run
 def getCost(pymooParams):
     #convert pymoo parameters into carlsat parameters
     carlSATparams = pf.getParameters(pymooParams)
-
     resultFile = runCarlSAT(carlSATparams)
-
     objectives = extractObjectives(resultFile)
 
     return calculateCosts(objectives)
@@ -67,17 +58,14 @@ def runCarlSAT(p):
         proc = subprocess.Popen(list(sLine.split(" ")), stdout=tf)
         proc.wait()
         tf.seek(0)
-        #_ potentially write to database
-    #testing seek
-    #tempf.seek(-27,2)
+
     return tempf
 
 
 def extractObjectives(tempf):
-    #print(tempf.name)
-    with open(tempf.name, 'rb') as tf:
-        tf.seek(-27,2) #get last 27 characters
 
+    with open(tempf.name, 'rb') as tf:
+        tf.seek(-27,2)
         cost = eval(str(tf.readline(), 'utf-8').split()[1])
         time = eval(str(tf.readline(), 'utf-8').split()[3])
     tempf.close()
@@ -91,17 +79,15 @@ def extractObjectives(tempf):
 
 # this function can be expanded to P2 and P3 where what/how we calculate cost(s) will change
 def calculateCosts(objectives):
-    #print("inside costs function, objectives are" + str(objectives))
     finalCost = objectives[0] + objectives[1]/objectives[2]
-    #print(finalCost)
     return finalCost #return an array once we have more than one objective to optimise
 
 # def write():
 #     pass
 
 if len(sys.argv) > 3:
-    #print(sys.argv[0])
-    testCall = sys.argv[3] #e.g.
+
+    testCall = sys.argv[3] #e.g. 'carlSAT'
     mainTest()
 
 else:
