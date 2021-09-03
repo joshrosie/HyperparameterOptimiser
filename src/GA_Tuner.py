@@ -16,6 +16,7 @@ class GA_Tuner:
     #solver will always have the same algorithm (DE) and problem number
     #what changes is just the way we run the GA (from state or scratch)
     def __init__(self, n_threads=64, problem=None, algorithm=None, populationSize=36):
+        
         self.pool = ThreadPool(n_threads)
         if problem is None: #DC
             self.problem = SolverProblem.SolverProblem(parallelization = ('starmap', self.pool.starmap))
@@ -31,6 +32,8 @@ class GA_Tuner:
             F=0.8,
             dither="vector",
             jitter=False)
+        else:
+            self.algorithm = algorithm
 
 
 
@@ -49,9 +52,7 @@ class GA_Tuner:
 
 
     def report(self,result):
-        print('Time taken:', result.exec_time)
-        #these are just the indices, not param vals #update
-        print("Best solution found: \nX = %s\nF = %s" % (result.X, result.F))
+        return [result.exec_time, result.X, result.F]
 
 
     #can add method to extract information/ancestory from result object

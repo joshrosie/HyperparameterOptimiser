@@ -15,8 +15,10 @@ def main():
 
     tuner = GA_Tuner.GA_Tuner()
     result = tuner.geneticAlgorithm()
+    output(tuner.report(result))
 
-    tuner.report(result)
+
+
 
 def mainTest():
     print("entered testing")
@@ -84,6 +86,11 @@ def calculateCosts(objectives):
 
 # def write():
 #     pass
+
+def output(results):
+        print('Time taken:', results[0])
+        #these are just the indices, not param vals #update
+        print("Best solution found with: \nParameters = %s,\nGiving Cost = %s" % (pf.getParameters(results[1]), results[2]))
 
 if len(sys.argv) > 3:
 
