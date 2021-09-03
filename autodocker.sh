@@ -44,7 +44,6 @@ if sudo docker ps -a --format '{{.Names}}' | grep -Eq "^${container}\$"; then
 
 fi
 
-#As it stands, the mysql data files are bind mounted to a persistent directory called mysql_data
 #The port number stuff might need to be changed (could cause an error if the client has a container running on that port.
 echo -e "\e[1;36m Starting docker container:\e[0m" $container
 
