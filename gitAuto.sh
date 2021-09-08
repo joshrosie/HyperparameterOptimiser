@@ -3,21 +3,32 @@
 #Automatically adds all relevant files+folders for staging.
 #Remember to commit after!
 
-#Database dump and then stage. The name of the container (i.e. mysql-db) shouldn't change.
+#This script also performs a database dump. The name of the container (i.e. mysql-db) shouldn't change.
 #Note: The hyperopt database will be dumped into two places. Namely sclscripts and dbBackups. 
-#sclscripts will form part of our git repo, but dbBackups will not. This will be a local directory to safeguard any potential corruptions
-#by other team members.
-#The entire mysql schema will also be backed-up (this is through the --all-databases command) but also only kept locally.
+#Both sclscripts and dbBackups are in our git repo.
+#sclscripts has the file <hyperopt.sql> which is our "most-up-to-date" hyperopt DB.
+#dbBackups stores all the incremental backups made. This allows for us to have a contingency plan incase
+#anything goes wrong and we need to restore our database from an older, healthy version.
 
-#Dump for git repo (this will be shared with the whole team) then stage
+#The following dumps hyperopt db stored on your local volume into shared folder (accessed from git repo).
+# i.e. This overwrites sqlscripts/hyperopt.sql with your local version of the hyperopt db.
+
+echo -e "\e[1;36mDump local hyperopt database to sqlscripts/hyperopt.sql\e[0m"
+
 sudo docker exec mysql-db sh -c 'exec mysqldump hyperopt -uroot -ppw' >./sqlscripts/hyperopt.sql
+
+#sqlscripts folder is staged
 git add sqlscripts/
 
-#Dump for incremental backup
+#The following creates an incremental backup of hyperopt db. dbBackup is also shared through our git repo.
+#No overwriting is done, as each backup is unique.
+
 NOW=$(date +"%m-%d-%y-%T")
-echo -e "\e[1;36mBacking up hyperopt database to dbBackups, filename = backup_${NOW}\e[0m"
+echo -e "\e[1;36mBacked up hyperopt database to dbBackups, filename = backup_${NOW}\e[0m"
 
 sudo docker exec mysql-db sh -c 'exec mysqldump hyperopt -uroot -ppw' >./dbBackups/backup_$NOW.sql 
+
+#Backups are staged
 git add dbBackups/
 
 
