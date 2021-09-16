@@ -5,7 +5,7 @@ from pymoo.optimize import minimize
 from pymoo.configuration import Configuration
 from pymoo.factory import get_sampling
 from multiprocessing.pool import ThreadPool
-from paramFunhouse import ParamFunhouse
+from ParamFunhouse import ParamFunhouse
 Configuration.show_compile_hint = False
 
 import SolverProblem as SP
