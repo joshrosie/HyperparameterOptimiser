@@ -5,6 +5,7 @@ import sys, os
 from ParamFunhouse import ParamFunhouse
 import GA_Tuner as GT
 import SolverProblem
+import Repository as REPO
 
 filename = sys.argv[1]  #e.g. test1.wcard
 timeout = sys.argv[2]   #e.g. 2 (seconds)
@@ -12,10 +13,15 @@ timeout = sys.argv[2]   #e.g. 2 (seconds)
 pf = ParamFunhouse()
 
 def main():
-
+    # repo = REPO.Repository()
+    # repo.initConnection()
+    # repo.insert([0,1,2,3,4,5,6])
+    # tables = repo.showTables()
+    # for x in tables:
+    #     print(x)
     tuner = GT.GA_Tuner()
     result = tuner.geneticAlgorithm()
-
+    
     tuner.report(result)
 
 def mainTest():
