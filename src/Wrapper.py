@@ -3,7 +3,7 @@ import subprocess
 import tempfile
 import sys, os
 from ParamFunhouse import ParamFunhouse
-import GA_Tuner
+import GA_Tuner as GT
 import SolverProblem
 
 filename = sys.argv[1]  #e.g. test1.wcard
@@ -13,7 +13,7 @@ pf = ParamFunhouse()
 
 def main():
 
-    tuner = GA_Tuner.GA_Tuner()
+    tuner = GT.GA_Tuner()
     result = tuner.geneticAlgorithm()
 
     tuner.report(result)

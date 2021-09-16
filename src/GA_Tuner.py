@@ -8,7 +8,7 @@ from multiprocessing.pool import ThreadPool
 from paramFunhouse import ParamFunhouse
 Configuration.show_compile_hint = False
 
-import solverProblem as SP
+import SolverProblem as SP
 
 class GA_Tuner:
 
