@@ -9,6 +9,17 @@ class Repository:
     __connection = None
     __cursor = None
 
+# Test
+# Constructor:
+#   Test that the object constructed is the one you tried to construct
+# initConnection:
+#   Can maybe validate by using the cursor to pull something we know is in the 
+#   database.
+# insert:
+#   Can get number of rows in table before and after method call
+# getRun:
+#   Can use a toy run as proof of concpet
+
     # Paramaterised constructor.
     def __init__(self, hostName="localhost", userName ="root", password = "pw", database = "hyperopt"):
         self.__hostName = hostName
@@ -34,16 +45,15 @@ class Repository:
         # [id,a,b,c,e,f,r,x]
         # may need to validate input?
         # this implementation may be wrong. If so refer to implementation in https://www.datacamp.com/community/tutorials/mysql-python
-        query = "INSERT INTO runAncestry (runID, aParam, bParam, cParam, eParam, fParam, rParam, xParam) VALUES({0},{1},{2},{3},{4},{5},{6},{7})"
-        id = values[0]
-        a = values[1]
-        b = values[2]
-        c = values[3]
-        e = values[4]
-        f = values[5]
-        r = values[6]
-        x = values[7]
-        query = query.format(id,a,b,c,e,f,r,x)
+        query = "INSERT INTO runAncestry (aParam, bParam, cParam, eParam, fParam, rParam, xParam) VALUES({},{},{},{},{},{},{})"
+        a = values[0]
+        b = values[1]
+        c = values[2]
+        e = values[3]
+        f = values[4]
+        r = values[5]
+        x = values[6]
+        query = query.format(a,b,c,e,f,r,x)
         self.__cursor.execute(query) # execute the query
         self.__connection.commit() # commit the update
 
@@ -53,6 +63,11 @@ class Repository:
         run = self.__cursor.fetchall()
         return run # must be accessed in a for-each loop
         
-
+    def getRunRange(self, loBound, upBound):
+        query = "SELECT * FROM runAncestry WHERE runID BETWEEN {} AND {}".format(loBound,upBound)
+        self.__cursor.execute(query)
+        runs = self.__cursor.fetchall()
+        return runs
+        
 
     
