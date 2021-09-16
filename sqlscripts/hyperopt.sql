@@ -23,14 +23,17 @@ DROP TABLE IF EXISTS `runAncestry`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `runAncestry` (
-  `runID` int DEFAULT NULL,
+  `runID` int NOT NULL AUTO_INCREMENT,
   `aParam` int DEFAULT NULL,
   `bParam` int DEFAULT NULL,
   `cParam` int DEFAULT NULL,
   `eParam` int DEFAULT NULL,
   `fParam` int DEFAULT NULL,
   `rParam` int DEFAULT NULL,
-  `xParam` int DEFAULT NULL
+  `xParam` int DEFAULT NULL,
+  `wcard` VARCHAR(50),
+  `finalCost` FLOAT DEFAULT NULL,
+  PRIMARY KEY (`runID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
