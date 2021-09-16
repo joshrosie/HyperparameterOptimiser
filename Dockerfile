@@ -17,12 +17,12 @@ WORKDIR /app/src/CarlSAT_2021-main/
 RUN make clean && make
 
 ### test ###
-FROM mysql as DB
+FROM ubuntu/mysql as DB
 
 
 WORKDIR /app/
 
-RUN apt update -y && apt -y install python3 && apt-get -y install python3-pip 
+RUN apt update -y && apt -y install python3 && apt -y install python3-pip &&  apt -y install libc6
 
 RUN pip3 install -U pymoo && pip3 install -U numpy && pip3 install -U mysql-connector-python 
 

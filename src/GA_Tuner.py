@@ -1,12 +1,11 @@
 
-from pymoo.algorithms.so_de import DE
+from pymoo.algorithms.soo.nonconvex.de import DE
+from pymoo.core.problem import starmap_parallelized_eval
 
 from pymoo.optimize import minimize
-from pymoo.configuration import Configuration
 from pymoo.factory import get_sampling
 from multiprocessing.pool import ThreadPool
 from ParamFunhouse import ParamFunhouse
-Configuration.show_compile_hint = False
 
 import SolverProblem as SP
 
@@ -19,7 +18,7 @@ class GA_Tuner:
         self.pool = ThreadPool(n_threads)
         
         if problem is None: #DC
-            self.problem = SP.SolverProblem(parallelization = ('starmap', self.pool.starmap))
+            self.problem = SP.SolverProblem(runner=self.pool.starmap, func_eval=starmap_parallelized_eval)
         else:
             self.problem = problem
 
