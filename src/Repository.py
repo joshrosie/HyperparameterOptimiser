@@ -28,11 +28,30 @@ class Repository:
     def showTables(self):
         self.__cursor.execute("SHOW TABLES")
         tables = self.__cursor.fetchall()
-        return tables #must be printed out in for-each array
+        return tables #must be printed out in for-each loop
 
     def insert(self,values): #values must be an array?
-        pass
-        
+        # [id,a,b,c,e,f,r,x]
+        # may need to validate input?
+        # this implementation may be wrong. If so refer to implementation in https://www.datacamp.com/community/tutorials/mysql-python
+        query = "INSERT INTO runAncestry (runID, aParam, bParam, cParam, eParam, fParam, rParam, xParam) VALUES({0},{1},{2},{3},{4},{5},{6},{7})"
+        id = values[0]
+        a = values[1]
+        b = values[2]
+        c = values[3]
+        e = values[4]
+        f = values[5]
+        r = values[6]
+        x = values[7]
+        query = query.format(id,a,b,c,e,f,r,x)
+        self.__cursor.execute(query) # execute the query
+        self.__connection.commit() # commit the update
+
+    def getRun(self, id):
+        query = "SELECT * FROM runAncestry WHERE runID = {}".format(id)
+        self.__cursor.execute(query)
+        run = self.__cursor.fetchall()
+        return run # must be accessed in a for-each loop
         
 
 
