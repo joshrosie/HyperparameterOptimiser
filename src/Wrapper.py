@@ -56,7 +56,7 @@ def getCost(pymooParams):
 
 def runCarlSAT(p):
     
-    sLine = './CarlSAT -a {} -b {} -c {} -e {} -f {} -r {} -x {} -t {} -v 2 -z {}'.format( p[0], p[1], p[2], p[3], p[4], p[5], p[6], timeout, filename)
+    sLine = './src/CarlSAT -a {} -b {} -c {} -e {} -f {} -r {} -x {} -t {} -v 2 -z {}'.format( p[0], p[1], p[2], p[3], p[4], p[5], p[6], timeout, filename)
 
     tempf = tempfile.NamedTemporaryFile(delete=False)
     with open(tempf.name, 'w') as tf:

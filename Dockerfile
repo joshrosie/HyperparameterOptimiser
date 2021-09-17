@@ -15,7 +15,6 @@ RUN rm main.zip
 WORKDIR /app/src/CarlSAT_2021-main/
 RUN make clean && make
 
-### test ###
 FROM ubuntu/mysql as DB
 
 
@@ -29,6 +28,7 @@ RUN pip3 install -U pymoo && pip3 install -U numpy && pip3 install -U mysql-conn
 RUN apt update -y && apt -y install python3
 RUN apt -y install python3-pip
 RUN pip3 install -U pymoo && pip3 install -U numpy
+#Don't think we need this ENV line. adding sqlscripts loads the database info.
 ENV MYSQL_DATABASE hyperopt
 ADD ./sqlscripts/ /docker-entrypoint-initdb.d/ 
 COPY . .

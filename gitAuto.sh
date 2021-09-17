@@ -36,10 +36,9 @@ git add dbBackups/
 git add src/
 
 #Miscellaneous
-git add autodocker.sh
+git add autorun.sh
 git add gitAuto.sh
 git add Dockerfile
 git add README.md
-git add updateLocalHyperDB.sh
 
 echo -e "\e[1;36mStaging complete. Remember to commit now!\n"
