@@ -15,13 +15,14 @@ timeout=2
 interactive='false'
 updateLocalDB='false'
 freshImage='false'
+wcardPath="wcards/rnd/tests/"
 
 #Help message if the user misuses the script.
 print_usage() {
 	printf "\nUSAGE:
 ./autorun.sh [options]\n
 OPTIONS:
--w : ARG\tProblem wcard, no default value. Must be specified if -i flag not passed
+-w : ARG\tProblem wcard, no default value. Must be specified if -i flag not passed. Can just give the file name (don't need the path)
 -t : ARG\tTimeout for CarlSAT, default = 2. Should be specified along with -w flag.
 -i\t\tEnable run container interactively, default = false. Must be specified if not passing -w and -t flag.
 -u\t\tUpdate local hyperopt database with gitLab synched sqlscripts/hyperopt.sql DB, default = false
@@ -33,6 +34,10 @@ and call the Wrapper class directly with relevant output being printed to consol
 EXAMPLES:
 ./autorun.sh -w test1.wcard -t 2 -f -u 
 ./autorun.sh -i\n"
+}
+
+container_exists(){
+	sudo docker ps -a --format '{{.Names}}' | grep -Eq "^${container}\$"
 }
 
 #If the user doesn't pass any options.
@@ -79,9 +84,13 @@ if ( [ "$interactive" == 'false' ] ) && ( [ -z "$wcard" ] ) ; then
 fi
 
 if [ "$freshImage" == 'true' ] ; then
-	sudo docker stop $container >/dev/null
-    sudo docker rm $container >/dev/null
-	sudo docker image rm dimage
+	echo -e "Fresh Image requested. Removing image ${dockerimage}\n"
+	if container_exists ; then
+		sudo docker stop $container >/dev/null
+    	sudo docker rm $container >/dev/null
+	fi
+	sudo docker image rm $dockerimage >/dev/null
+	echo -e "${dockerimage} Removed\n"
 fi
 
 sudo docker build -t $dockerimage .
@@ -97,7 +106,7 @@ else
 fi
 
 #Checks to see if the mysql container has already been created. If it is, then it needs to be stopped and removed before restarting it.
-if sudo docker ps -a --format '{{.Names}}' | grep -Eq "^${container}\$"; then
+if container_exists ; then
 #if sudo docker ps -a --format '{{.Names}}' | grep -Fq $container ; then
         echo -e "\e[1;36mContainer <${container}> already exists. Stopping and removing it first.\e[0m\n"
         sudo docker stop $container >/dev/null
@@ -106,19 +115,22 @@ if sudo docker ps -a --format '{{.Names}}' | grep -Eq "^${container}\$"; then
 fi
 
 
+
 #The port number stuff might need to be changed (could cause an error if the client has a container running on that port.
 echo -e "\e[1;36mStarting docker container:\e[0m" $container
 
-sudo docker run -d -p 3310:3310 --name=$container -v $volume:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=$sql_pword $dockerimage
+sudo docker run -d -p 3306:3306 --name=$container -v $volume:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=$sql_pword $dockerimage
 
 echo -e "\e[1;36mContainer started \e[0m\n"
 
 if [ $updateLocalDB == 'true' ] ; then
 	echo -e "\e[1;36mUpdate local DB specified\e[0m\n"
-	sudo docker exec -i mysql-db sh -c 'exec mysql -uroot -ppw hyperopt' <./sqlscripts/hyperopt.sql
-
+	sleep 2
+	sudo docker exec -i $container sh -c 'exec mysql -uroot -ppw hyperopt' <./sqlscripts/hyperopt.sql
 	echo -e "\e[1;36mHyperopt database in docker container has been restored\nfrom hyperopt.sql database stored in sqlscripts.\e[0m\n"
 fi
+
+
 
 if [ $interactive == 'true' ] ; then
 	echo -e "\e[1;32mExecuting interactive container with bash terminal\n 
@@ -129,6 +141,8 @@ It is available in this current directory (type more README.md)\n\n\e[0m"
 	sudo docker exec -it $container bash
 
 else
-	
-	#need to work out how to run docker container in non-interactive mode but still pipe out console output
+	echo -e "\e[1;32mExecuting Hyper-parameter optimization program with input problem: ${wcard} and timeout: ${timeout} seconds\e[0m\n"
+	#Might want to add feature to generate a new wcard if the user wants that. Otherwise just go fetch one from the tests directory
+	wcardPath+="${wcard}"
+	sudo docker exec -i $container sh -c "python3 -u src/Wrapper.py ${wcardPath} ${timeout}"
 fi

@@ -60,20 +60,24 @@ def runCarlSAT(p):
 
     tempf = tempfile.NamedTemporaryFile(delete=False)
     with open(tempf.name, 'w') as tf:
-
+        
         proc = subprocess.Popen(list(sLine.split(" ")), stdout=tf)
         proc.wait()
         tf.seek(0)
-
+        
     return tempf
 
 
 def extractObjectives(tempf):
 
     with open(tempf.name, 'rb') as tf:
+        
         tf.seek(-27,2)
+        
+        
         cost = eval(str(tf.readline(), 'utf-8').split()[1])
         time = eval(str(tf.readline(), 'utf-8').split()[3])
+       
     tempf.close()
     os.unlink(tempf.name)
 

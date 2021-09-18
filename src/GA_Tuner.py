@@ -14,7 +14,7 @@ class GA_Tuner:
 
     #solver will always have the same algorithm (DE) and problem number
     #what changes is just the way we run the GA (from state or scratch)
-    def __init__(self,  n_threads=64, problem=None, algorithm=None, populationSize=36, paramFun = None):
+    def __init__(self,  n_threads=4, problem=None, algorithm=None, populationSize=36, paramFun = None):
         self.pool = ThreadPool(n_threads)
         
         if problem is None: #DC

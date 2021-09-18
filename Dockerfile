@@ -20,7 +20,7 @@ FROM ubuntu/mysql as DB
 
 WORKDIR /app/
 
-RUN apt update -y && apt -y install python3 && apt -y install python3-pip &&  apt -y install libc6
+RUN apt update -y && apt -y install python3 && apt -y install python3-pip
 
 RUN pip3 install -U pymoo && pip3 install -U numpy && pip3 install -U mysql-connector-python 
 
@@ -29,9 +29,9 @@ RUN apt update -y && apt -y install python3
 RUN apt -y install python3-pip
 RUN pip3 install -U pymoo && pip3 install -U numpy
 #Don't think we need this ENV line. adding sqlscripts loads the database info.
-ENV MYSQL_DATABASE hyperopt
 ADD ./sqlscripts/ /docker-entrypoint-initdb.d/ 
 COPY . .
+EXPOSE 3306
 
 #NOTE: may have to play around with port number to get it to work
 

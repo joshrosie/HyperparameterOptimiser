@@ -23,7 +23,7 @@ git add sqlscripts/
 #The following creates an incremental backup of hyperopt db. dbBackup is also shared through our git repo.
 #No overwriting is done, as each backup is unique.
 
-NOW=$(date +"%m-%d-%y-%T")
+NOW=$(date +"%m-%b-%Y_%H-%M-%S")
 echo -e "\e[1;36mBacked up hyperopt database to dbBackups, filename = backup_${NOW}\e[0m"
 
 sudo docker exec mysql-db sh -c 'exec mysqldump hyperopt -uroot -ppw' >./dbBackups/backup_$NOW.sql 
@@ -40,5 +40,6 @@ git add autorun.sh
 git add gitAuto.sh
 git add Dockerfile
 git add README.md
+git add wcards/
 
 echo -e "\e[1;36mStaging complete. Remember to commit now!\n"
