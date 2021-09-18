@@ -1,10 +1,19 @@
 import numpy as np
 import subprocess
 import tempfile
+<<<<<<< HEAD
 import sys, os
 from ParamFunhouse import ParamFunhouse
 import GA_Tuner
 import SolverProblem
+=======
+import sys
+import pymooProblem
+
+#Once we have a better understanding of how we should allow the user to
+# interact with the system (like specifying incremental, accessing ancestry, starting from scratch etc.)
+# then this gathering of arguments from the command line will be more robust and less hard-coded.
+>>>>>>> 0c3eed5d92a3c126ccb8af5acaca3680e5066fb9
 
 filename = sys.argv[1]  #e.g. test1.wcard
 timeout = sys.argv[2]   #e.g. 2 (seconds)
@@ -13,6 +22,7 @@ pf = ParamFunhouse()
 
 def main():
 
+<<<<<<< HEAD
     tuner = GA_Tuner.GA_Tuner()
     result = tuner.geneticAlgorithm()
     output(tuner.report(result))
@@ -53,19 +63,53 @@ def getCost(pymooParams):
 def runCarlSAT(p):
     
     sLine = './CarlSAT -a {} -b {} -c {} -e {} -f {} -r {} -x {} -t {} -v 2 -z {}'.format( p[0], p[1], p[2], p[3], p[4], p[5], p[6], timeout, filename)
+=======
+def main():
+    pymooProblem.geneticAlgorithm()
+
+    
+def runCarlSAT_extract(a,b,c,e,f,r,x):
+
+
+    sLine = './CarlSAT -a {} -b {} -c {} -e {} -f {} -r {} -x {} -t {} -v 2 -z {}'.format(a,b,c,e,f,r,x,timeout,filename)
+    # The following execution of CarlSat and extraction of console output will most likely be moved to a solver object.
+    #Inevitably the cost and timestamp will also be passed into a pymoo problem object/ function as its objectives
+>>>>>>> 0c3eed5d92a3c126ccb8af5acaca3680e5066fb9
 
     tempf = tempfile.NamedTemporaryFile(delete=False)
     with open(tempf.name, 'w') as tf:
 
+<<<<<<< HEAD
         proc = subprocess.Popen(list(sLine.split(" ")), stdout=tf)
         proc.wait()
         tf.seek(0)
 
     return tempf
+=======
+        # This runs whatever shell command you put into it and the console output is stored in the temporary file
+        proc = subprocess.Popen(Convert(sLine), stdout=tempf) #?
+  
+        proc.wait()  # Waiting on child process to finish i.e. waiting until CarlSat is finished and displayed its output
+
+        # Go to the end of the file and then back a bit to just have the last two lines of output left.
+        tempf.seek(tempf.tell() - 27)
+        # From current understanding - it is only the last two lines of the output that is relevant.
+
+        # Convert bytes into string
+        stringLine = str(tempf.readline(), 'utf-8')
 
 
-def extractObjectives(tempf):
+        # Find the 'o' character that always comes before the cost value
+        posChar = stringLine.find('o')
+>>>>>>> 0c3eed5d92a3c126ccb8af5acaca3680e5066fb9
 
+
+        # Extract the best cost (in this run of CarlSat)
+        cost = 0
+        cost = eval(stringLine[(posChar + 2):(len(stringLine) - 1)])
+       # print(cost)
+
+<<<<<<< HEAD
     with open(tempf.name, 'rb') as tf:
         tf.seek(-27,2)
         cost = eval(str(tf.readline(), 'utf-8').split()[1])
@@ -83,10 +127,29 @@ def extractObjectives(tempf):
 def calculateCosts(objectives):
     finalCost = objectives[0] + objectives[1]/objectives[2]
     return finalCost #return an array once we have more than one objective to optimise
+=======
+        stringLine = str(tempf.readline(), 'utf-8')
 
-# def write():
-#     pass
+        # Find the ':' character that always comes before the time stamp value
+        posChar = stringLine.find(':')
 
+
+        # Extract the time stamp of when the best cost was found (in this run of CarlSat)
+        timeTaken = stringLine[(posChar + 2):(len(stringLine) - 3)]
+        
+
+        # Convert the timeTaken into its millisecond representation
+        timeTakenMs = eval(timeTaken) * 1000
+        maxTimeMs = eval(timeout) * 1000 
+
+        #print(timeTakenMs)
+
+        return [cost,timeTakenMs,maxTimeMs]    
+
+>>>>>>> 0c3eed5d92a3c126ccb8af5acaca3680e5066fb9
+
+
+<<<<<<< HEAD
 def output(results):
         print('Time taken:', results[0])
         #these are just the indices, not param vals #update
@@ -101,3 +164,7 @@ else:
     if __name__ == "__main__":
         
         main()
+=======
+if __name__ == "__main__":
+    main()
+>>>>>>> 0c3eed5d92a3c126ccb8af5acaca3680e5066fb9
