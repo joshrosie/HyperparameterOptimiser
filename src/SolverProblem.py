@@ -1,5 +1,4 @@
 from pymoo.core.problem import ElementwiseProblem
-#test
 import numpy as np
 import Wrapper
 
