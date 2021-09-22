@@ -57,10 +57,9 @@ def getCost(pymooParams):
 def runCarlSAT(p,stateResumeName=None):
     if stateResumeName is None: #starting from scratch...
         stateResumeName = "N/A"
-    OutputfileName = uuid.uuid4().hex  
+    OutputfileName = uuid.uuid4().hex  #state output file name is unique to help with concurrency problems
     
-   # sLine = './CarlSAT -a {} -b {} -c {} -e {} -f {} -r {} -x {} -t {} -v 2 -z {} -i {} -w {}'.format( p[0], p[1], p[2], p[3], p[4], p[5], p[6], timeoutIt, problemCard)
-    sParamString = '-a {} -b {} -c {} -e {} -f {} -r {} -x {}'.format( p[0], p[1], p[2], p[3], p[4], p[5], p[6]) 
+    sParamString = '-a {} -b {} -c {} -e {} -f {} -r {} -x {}'.format( p[0], p[1], p[2], p[3], p[4], p[5], p[6]) #TV
     sArguments = '-t {} -v 2 -z {} -i {} -w {}'.format(timeoutIt, problemCard, stateResumeName, OutputfileName)
     sRunLine = './CarlSAT ' + sParamString + ' ' + sArguments
     
@@ -71,7 +70,7 @@ def runCarlSAT(p,stateResumeName=None):
         proc.wait()
         tf.seek(0)
 
-    return tempf
+    return [tempf,OutputfileName]
 
 def extractObjectives(tempf):
 
