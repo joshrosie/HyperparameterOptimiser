@@ -1,5 +1,5 @@
 from pymoo.algorithms.so_de import DE
-from pymoo.algorithms.moo.nsga2 import NSGA2
+from pymoo.algorithms.nsga2 import NSGA2
 import matplotlib.pyplot as plt
 import numpy as np
 
