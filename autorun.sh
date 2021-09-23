@@ -13,6 +13,7 @@ sql_pword=pw
 wcard=''
 timeout=2
 interactive='false'
+incremental='false'
 updateLocalDB='false'
 freshImage='false'
 wcardPath="wcards/rnd/tests/"
@@ -24,16 +25,19 @@ print_usage() {
 OPTIONS:
 -w : ARG\tProblem wcard, no default value. Must be specified if -i flag not passed. Can just give the file name (don't need the path)
 -t : ARG\tTimeout for CarlSAT, default = 2. Should be specified along with -w flag.
+-y\t\tRun CarlSAT in incremental mode, default = false.
 -i\t\tEnable run container interactively, default = false. Must be specified if not passing -w and -t flag.
 -u\t\tUpdate local hyperopt database with gitLab synched sqlscripts/hyperopt.sql DB, default = false
 -f\t\tRemove associated docker image and rebuild from scratch. i.e. docker image is purged\n
 NOTE:
-The -i flag is mutually exclusive from the -w and -t flags. The -i flag will not directly call the Wrapper class
-as interactive mode is intended for development and debugging. Passing in the -w and -t flags will run the container as a Daemon
-and call the Wrapper class directly with relevant output being printed to console.\n 
+The -i flag is mutually exclusive from the -w, -y and -t flags. The -i flag will not directly call the Wrapper class
+as interactive mode is intended for development and debugging. If -i is not passed, the docker container will run as a Daemon
+and call the Wrapper class directly with relevant output being printed to host console. Otherwise, an interactive bash terminal will be started for the user
+within the Docker container.
+The flags -u and -f can be combined with both interactive and non-interactive mode.\n 
 EXAMPLES:
-./autorun.sh -w test1.wcard -t 2 -f -u 
-./autorun.sh -i\n"
+./autorun.sh -w test1.wcard -t 2 -f -u -y
+./autorun.sh -i -u\n"
 }
 
 container_exists(){
@@ -48,7 +52,7 @@ fi
 
 
 
-while getopts :w:t:ifu flag; do
+while getopts :w:t:ifuy flag; do
 	case "${flag}" in
     	w) wcard=${OPTARG}
     		;;
@@ -60,22 +64,28 @@ while getopts :w:t:ifu flag; do
 			;;
 		u) updateLocalDB='true'
 			;;
-    	*) echo "Invalid option: -$flag"
+		y) incremental='true'
+			;;
+    	*) echo -e "Invalid option: -${flag}"
 			print_usage
 			exit 1
 			;;
 	esac
 done
 
-#Checks if the user tried to run with interactive mode enabled as well as specified a wcard
+#Checks if the user tried to run with interactive mode enabled as well as specified a wcard.
+#Wcard will just be ignored, but worthwhile notifiying the user as such
 
 if ( [ "$interactive" == 'true' ] ) && ( [ -n "$wcard" ] ) ; then
-	print_usage
-	echo -e "\n\e[1;31mUSAGE ERROR: Script can't be called with interactive mode set to true AND having specified a wcard\e[0m\n"
-	exit 1
+	echo -e "NOTE: Script called with interactive flag AND having specified a wcard --> Wcard flag ignored.\n"
+fi
+
+if ( [ "$interactive" == 'true' ] ) && ( [ $incremental == 'true' ] ) ; then
+	echo -e "NOTE: Script called with interactive flag AND requesting CarlSAT incremental mode --> Incremental flag ignored.\n"
 fi
 
 #Checks if the user tried to run in non-interactive mode, but didn't specify a problem card.
+#This is a problem and the execution must terminate
 
 if ( [ "$interactive" == 'false' ] ) && ( [ -z "$wcard" ] ) ; then
 	print_usage
@@ -119,7 +129,12 @@ fi
 #The port number stuff might need to be changed (could cause an error if the client has a container running on that port.
 echo -e "\e[1;36mStarting docker container:\e[0m" $container
 
-sudo docker run -d -p 3306:3306 --name=$container -v $volume:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=$sql_pword $dockerimage
+sudo docker run -d -p 3306:3306 \
+--name=$container \
+-v $volume:/var/lib/mysql \
+--mount type=tmpfs,destination=/mnt/ramdisk \
+-e MYSQL_ROOT_PASSWORD=$sql_pword \
+$dockerimage
 
 echo -e "\e[1;36mContainer started \e[0m\n"
 
@@ -142,7 +157,11 @@ It is available in this current directory (type more README.md)\n\n\e[0m"
 
 else
 	echo -e "\e[1;32mExecuting Hyper-parameter optimization program with input problem: ${wcard} and timeout: ${timeout} seconds\e[0m\n"
+	#echo -e "\e[1;32mExecuting Hyper-parameter optimization program with input problem: ${wcard} and timeout: ${timeout} seconds with incremental mode = ${incremental}\e[0m\n"
+	
 	#Might want to add feature to generate a new wcard if the user wants that. Otherwise just go fetch one from the tests directory
 	wcardPath+="${wcard}"
+	
+	#sudo docker exec -i $container sh -c "python3 -u src/Wrapper.py ${wcardPath} ${timeout} ${incremental}"
 	sudo docker exec -i $container sh -c "python3 -u src/Wrapper.py ${wcardPath} ${timeout}"
 fi

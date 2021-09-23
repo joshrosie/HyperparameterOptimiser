@@ -20,20 +20,10 @@ FROM ubuntu/mysql as DB
 
 WORKDIR /app/
 
-RUN apt update -y && apt -y install python3 && apt -y install python3-pip
+RUN apt update -y && apt -y install python3 && apt -y install python3-pip && apt -y install sudo
 
 RUN pip3 install -U pymoo && pip3 install -U numpy && pip3 install -U mysql-connector-python 
 
-
-RUN apt update -y && apt -y install python3
-RUN apt -y install python3-pip
-RUN pip3 install -U pymoo && pip3 install -U numpy
-#Don't think we need this ENV line. adding sqlscripts loads the database info.
 ADD ./sqlscripts/ /docker-entrypoint-initdb.d/ 
 COPY . .
 EXPOSE 3306
-
-#NOTE: may have to play around with port number to get it to work
-
-#Eventually the parameters passed into the wrapper class should be more extensive than just the problem card name.
- 
