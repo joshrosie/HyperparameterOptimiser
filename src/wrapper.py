@@ -10,6 +10,7 @@ import SolverProblem
 problemCard = sys.argv[1]  #e.g. test1.wcard
 timeout = sys.argv[2]   #e.g. 2 (seconds)
 timeoutIt = eval(timeout)/20
+outputNum
 #parameter choice = sys.argv[3] #e.g 25 out of 40
 
 pf = ParamFunhouse()
@@ -54,13 +55,12 @@ def getCost(pymooParams):
     return calculateCosts(objectives)
 
 
-def runCarlSAT(p,stateResumeName=None):
-    if stateResumeName is None: #starting from scratch...
-        stateResumeName = "N/A"
-    OutputfileName = uuid.uuid4().hex  #state output file name is unique to help with concurrency problems
+def runCarlSAT(p):
+    
+    inc(outputNum) #repo's autonumber or something
     
     sParamString = '-a {} -b {} -c {} -e {} -f {} -r {} -x {}'.format( p[0], p[1], p[2], p[3], p[4], p[5], p[6]) #TV
-    sArguments = '-t {} -v 2 -z {} -i {} -w {}'.format(timeoutIt, problemCard, stateResumeName, OutputfileName)
+    sArguments = '-t {} -v 2 -z {} -i {} -w {}'.format(timeoutIt, problemCard, p[7], outputNum)
     sRunLine = './CarlSAT ' + sParamString + ' ' + sArguments
     
     tempf = tempfile.NamedTemporaryFile(delete=False)
