@@ -23,14 +23,14 @@ DROP TABLE IF EXISTS `runAncestry`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `runAncestry` (
-  --`Session` int DEFAULT NULL,
-  `runID` int NOT NULL AUTO_INCREMENT,
   `Session` int DEFAULT NULL,
+  `runID` int NOT NULL AUTO_INCREMENT,
   `Generation` int DEFAULT NULL,
   `PopulationMember` int DEFAULT NULL,
   `aParam` int DEFAULT NULL,
   `bParam` int DEFAULT NULL,
   `cParam` int DEFAULT NULL,
+  `dParam` int DEFAULT NULL,
   `eParam` int DEFAULT NULL,
   `fParam` int DEFAULT NULL,
   `rParam` int DEFAULT NULL,
