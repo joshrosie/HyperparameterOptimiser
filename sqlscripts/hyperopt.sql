@@ -39,14 +39,13 @@ CREATE TABLE `runAncestry` (
   `zParam` VARCHAR(50),
   `iParam` VARCHAR(50),
   `wParam` VARCHAR(50),
-  `EndScore` FLOAT DEFAULT NULL, --P1
+  `EndScore` FLOAT DEFAULT NULL,
   `StartScore` FLOAT DEFAULT NULL,
   `StartTime` FLOAT DEFAULT NULL,
   `EndTime` FLOAT DEFAULT NULL,
---  `P1` FLOAT DEFAULT NULL,
+  `P1` FLOAT DEFAULT NULL,
   `P2` FLOAT DEFAULT NULL,
   `P3` FLOAT DEFAULT NULL,
-  -- `wcard` VARCHAR(50),
   PRIMARY KEY (`runID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
