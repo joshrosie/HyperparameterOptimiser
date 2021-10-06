@@ -56,24 +56,28 @@ def getCost(pymooParams):
 
 def runCarlSAT(p):
     
-    sLine = './CarlSAT -a {} -b {} -c {} -e {} -f {} -r {} -x {} -t {} -v 2 -z {}'.format( p[0], p[1], p[2], p[3], p[4], p[5], p[6], timeout, filename)
+    sLine = './src/CarlSAT -a {} -b {} -c {} -e {} -f {} -r {} -x {} -t {} -v 2 -z {}'.format( p[0], p[1], p[2], p[3], p[4], p[5], p[6], timeout, filename)
 
     tempf = tempfile.NamedTemporaryFile(delete=False)
     with open(tempf.name, 'w') as tf:
-
+        
         proc = subprocess.Popen(list(sLine.split(" ")), stdout=tf)
         proc.wait()
         tf.seek(0)
-
+        
     return tempf
 
 
 def extractObjectives(tempf):
 
     with open(tempf.name, 'rb') as tf:
+        
         tf.seek(-27,2)
+        
+        
         cost = eval(str(tf.readline(), 'utf-8').split()[1])
         time = eval(str(tf.readline(), 'utf-8').split()[3])
+       
     tempf.close()
     os.unlink(tempf.name)
 

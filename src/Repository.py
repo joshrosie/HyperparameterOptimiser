@@ -1,5 +1,9 @@
 import mysql.connector as mysql
-
+# We attempted to make this class a singleton. However, we soon found that this is more complicated to implement in python as the
+# constructor does not work in the same way as more object oriented languages like Java. The idea behind making this class a singleton
+# is that we want a hard restriction on the number of repositories that can exist which should only ever been one. Further exploration
+# revealed that while it is possible to turn a python class into a singleton, it is an arduous process. It will be something that we will
+# look into implementing if we have time after we meet the minimal requirements.
 class Repository:
     # Private variables
     __hostName = None
