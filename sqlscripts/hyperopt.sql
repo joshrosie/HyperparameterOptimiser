@@ -31,6 +31,9 @@ CREATE TABLE `runAncestry` (
   `fParam` int DEFAULT NULL,
   `rParam` int DEFAULT NULL,
   `xParam` int DEFAULT NULL,
+  `P1` FLOAT DEFAULT NULL,
+  `P2` FLOAT DEFAULT NULL,
+  `P3` FLOAT DEFAULT NULL,
   `wcard` VARCHAR(50),
   `finalCost` FLOAT DEFAULT NULL,
   PRIMARY KEY (`runID`)
