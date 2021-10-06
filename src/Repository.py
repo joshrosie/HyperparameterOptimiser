@@ -67,22 +67,22 @@ class Repository:
         run = self.__cursor.fetchall()
         return run # must be accessed in a for-each loop
     
-    def getStateMatch(self,x):
+    def getStatesRanked(self,x):
         GA_P1 = x[7]
         GA_P2 = x[8]
         GA_P3 = x[9]
-        query = "SELECT stateFile, (  min(  (p1 - GA_P1)^2)  +  (p2 - GA_P2)^2  +  ((p3 - GA_P3)^2)*0.5)  )  ) as Score FROM runAncestry"
+        query = "SELECT stateFile, (  min(  (p1 - GA_P1)^2)  +  (p2 - GA_P2)^2  +  ((p3 - GA_P3)^2)*0.5)  )  ) as Score FROM runAncestry ORDERY BY Score"
         self.__cursor.execute(query)
         run = self.__cursor.fetchall()
         
         
         return #return array of ranked statefiles and theirnames
         
-    def getRunRange(self, loBound, upBound):
-        query = "SELECT * FROM runAncestry WHERE runID BETWEEN {} AND {}".format(loBound,upBound)
-        self.__cursor.execute(query)
-        runs = self.__cursor.fetchall()
-        return runs
+    # def getRunRange(self, loBound, upBound):
+    #     query = "SELECT * FROM runAncestry WHERE runID BETWEEN {} AND {}".format(loBound,upBound)
+    #     self.__cursor.execute(query)
+    #     runs = self.__cursor.fetchall()
+    #     return runs
         
 
     
