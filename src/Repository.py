@@ -49,20 +49,30 @@ class Repository:
         # [id,a,b,c,e,f,r,x]
         # may need to validate input?
         # this implementation may be wrong. If so refer to implementation in https://www.datacamp.com/community/tutorials/mysql-python
-        query = "INSERT INTO runAncestry (aParam, bParam, cParam, eParam, fParam, rParam, xParam, P1, P2, P3, Score,stateFile) VALUES({}.{},{},{},{},{},{},{},{},{},{},{})"
-        a = values[0]
-        b = values[1]
-        c = values[2]
-        e = values[3]
-        f = values[4]
-        r = values[5]
-        x = values[6]
-        p1 = values[7]
-        p2 = values[8]
-        p3 = values[9]
-        score = values[10] #where tf do we determine score? what is score? pain
-        stateFile = values[11]
-        query = query.format(a,b,c,e,f,r,x,p1,p2,p3,score,stateFile)
+        query = "INSERT INTO runAncestry (Session, Generation, PopulationMember, aParam, bParam, cParam, dParam,eParam, fParam, rParam, xParam, Timout, zParam, iParam, wParam, EndScore, StartScore, StartTime, EndTime, P2, P3) VALUES({},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{})"
+        s = values[0]
+        g = values[1]
+        p = values[2]        
+        a = values[3]
+        b = values[4]
+        c = values[5]
+        d = values[6]
+        e = values[7]
+        f = values[8]
+        r = values[9]
+        x = values[10]
+        timeout= values[11]
+        z = values[12]
+        i = values[13]
+        w = values[14]
+        endscore = values[15]
+        startscore = values[16]
+        starttime = values[17]
+        endtime = values[18]
+        p2 = values[19]
+        p3 = values[20]
+      
+        query = query.format(s,p,g,a,b,c,d,e,f,r,x,timeout,z,i,w,endscore,startscore,starttime,endtime,p2,p3)
         self.__cursor.execute(query) # execute the query
         self.__connection.commit() # commit the update
 
@@ -78,17 +88,15 @@ class Repository:
         runs = self.__cursor.fetchall()
         return runs
 
-
-    def getStatesRanked(self,x):
-        GA_P1 = x[7]
-        GA_P2 = x[8]
-        GA_P3 = x[9]
-        #query = "SELECT stateFile, (  min(   (p1 - {})^2)  +  (p2 - {})^2  +  ((p3 - {})^2)*0.5) )  ) as Score FROM runAncestry ORDER BY Score".format(GA_P1,GA_P2,GA_P3)
-        # if we store score in runAncestry and input it when we get p1 p2 p3:
-        query = "SELECT TOP 1 FROM runAncestry ORDER BY ((P1 - {})^2)  +  (P2 - {})^2  +  ((P3 - {})^2)*0.5))".format(GA_P1,GA_P2,GA_P3)
+    # orders db in terms of score (descending) then selects every state file from the current session
+    def getStatesRanked(self,pymooParams, sessionNumber): #required to do: need to figure out a way to keep track of session
+        GA_P1 = pymooParams[7]
+        GA_P2 = pymooParams[8]
+        GA_P3 = pymooParams[9]
+        query = "SELECT stateFile FROM runAncestry WHERE Sesion = {} ORDER BY ((P1 - {})^2)  +  (P2 - {})^2  +  ((P3 - {})^2)*0.5)) DESC".format(sessionNumber,GA_P1,GA_P2,GA_P3)
         self.__cursor.execute(query)
-        run = self.__cursor.fetchall()
-        return run
+        stateFiles = self.__cursor.fetchall()
+        return stateFiles
 
 
 
