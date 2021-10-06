@@ -34,7 +34,9 @@ CREATE TABLE `runAncestry` (
   `P1` FLOAT DEFAULT NULL,
   `P2` FLOAT DEFAULT NULL,
   `P3` FLOAT DEFAULT NULL,
-  `wcard` VARCHAR(50),
+  `Score` FLOAT DEFAULT NULL,
+  -- `wcard` VARCHAR(50),
+  `stateFile` VARCHAR(50),
   `finalCost` FLOAT DEFAULT NULL,
   PRIMARY KEY (`runID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;

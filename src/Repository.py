@@ -45,7 +45,7 @@ class Repository:
         # [id,a,b,c,e,f,r,x]
         # may need to validate input?
         # this implementation may be wrong. If so refer to implementation in https://www.datacamp.com/community/tutorials/mysql-python
-        query = "INSERT INTO runAncestry (aParam, bParam, cParam, eParam, fParam, rParam, xParam, P1, P2, P3) VALUES({},{},{},{},{},{},{},{},{},{})"
+        query = "INSERT INTO runAncestry (aParam, bParam, cParam, eParam, fParam, rParam, xParam, P1, P2, P3, Score,stateFile) VALUES({}.{},{},{},{},{},{},{},{},{},{},{})"
         a = values[0]
         b = values[1]
         c = values[2]
@@ -56,7 +56,9 @@ class Repository:
         p1 = values[7]
         p2 = values[8]
         p3 = values[9]
-        query = query.format(a,b,c,e,f,r,x,p1,p2,p3)
+        score = values[10] #where tf do we determine score? what is score? pain
+        stateFile = values[11]
+        query = query.format(a,b,c,e,f,r,x,p1,p2,p3,score,stateFile)
         self.__cursor.execute(query) # execute the query
         self.__connection.commit() # commit the update
 
@@ -72,10 +74,18 @@ class Repository:
         runs = self.__cursor.fetchall()
         return runs
 
-    def getStateMatch(self, paramArray):
-        p1 = paramArray[7]
-        p2 = paramArray[8]
-        p3 = paramArray[9]
-        
+
+    def getStatesRanked(self,x):
+        GA_P1 = x[7]
+        GA_P2 = x[8]
+        GA_P3 = x[9]
+        #query = "SELECT stateFile, (  min(   (p1 - {})^2)  +  (p2 - {})^2  +  ((p3 - {})^2)*0.5) )  ) as Score FROM runAncestry ORDER BY Score".format(GA_P1,GA_P2,GA_P3)
+        # if we store score in runAncestry and input it when we get p1 p2 p3:
+        query = "SELECT TOP 1 FROM runAncestry ORDER BY ((P1 - {})^2)  +  (P2 - {})^2  +  ((P3 - {})^2)*0.5))".format(GA_P1,GA_P2,GA_P3)
+        self.__cursor.execute(query)
+        run = self.__cursor.fetchall()
+        return run
+
+
 
     
