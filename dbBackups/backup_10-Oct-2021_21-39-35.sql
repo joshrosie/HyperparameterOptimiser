@@ -36,18 +36,6 @@ CREATE TABLE `runAncestry` (
   `rParam` int DEFAULT NULL,
   `xParam` int DEFAULT NULL,
   `Timeout` int DEFAULT NULL,
-<<<<<<< HEAD
-  `zParam` VARCHAR(50),
-  `iParam` VARCHAR(50),
-  `wParam` VARCHAR(50),
-  `EndScore` FLOAT DEFAULT NULL,
-  `StartScore` FLOAT DEFAULT NULL,
-  `StartTime` FLOAT DEFAULT NULL,
-  `EndTime` FLOAT DEFAULT NULL,
-  `P1` FLOAT DEFAULT NULL,
-  `P2` FLOAT DEFAULT NULL,
-  `P3` FLOAT DEFAULT NULL,
-=======
   `zParam` varchar(50) DEFAULT NULL,
   `iParam` varchar(50) DEFAULT NULL,
   `wParam` varchar(50) DEFAULT NULL,
@@ -57,7 +45,6 @@ CREATE TABLE `runAncestry` (
   `EndTime` float DEFAULT NULL,
   `P2` float DEFAULT NULL,
   `P3` float DEFAULT NULL,
->>>>>>> e3c74009a1461e425a2d42b03cfc865e25be9949
   PRIMARY KEY (`runID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -80,4 +67,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-10-06 19:39:35
+-- Dump completed on 2021-10-06 19:39:36

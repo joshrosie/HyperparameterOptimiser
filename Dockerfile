@@ -23,7 +23,7 @@ WORKDIR /app/
 RUN apt update -y && apt -y install python3 && apt -y install python3-pip && apt -y install sudo
 
 RUN pip3 install -U pymoo && pip3 install -U numpy && pip3 install -U mysql-connector-python 
-
+ENV MYSQL_DATABASE hyperopt
 ADD ./sqlscripts/ /docker-entrypoint-initdb.d/ 
 COPY . .
 EXPOSE 3306
