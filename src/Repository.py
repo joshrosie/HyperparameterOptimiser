@@ -49,30 +49,31 @@ class Repository:
         # [id,a,b,c,e,f,r,x]
         # may need to validate input?
         # this implementation may be wrong. If so refer to implementation in https://www.datacamp.com/community/tutorials/mysql-python
-        query = "INSERT INTO runAncestry (Session, Generation, PopulationMember, aParam, bParam, cParam, dParam,eParam, fParam, rParam, xParam, Timout, zParam, iParam, wParam, EndScore, StartScore, StartTime, EndTime, P2, P3) VALUES({},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{})"
-        s = values[0]
-        g = values[1]
-        p = values[2]        
-        a = values[3]
+        query = "INSERT INTO runAncestry (Session, Generation, PopulationMember, aParam, bParam, cParam, dParam,eParam, fParam, rParam, xParam, Timeout, zParam, iParam, wParam, EndScore, StartScore, StartTime, EndTime, P1, P2, P3) VALUES({},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{})"
+        s = values[0] #keep track of session number to discern which files are valid input files
+        g = values[1] # not sure
+        p = values[2] # not sure       
+        a = values[3] # standard params
         b = values[4]
         c = values[5]
-        d = values[6]
+        d = values[6] 
         e = values[7]
         f = values[8]
         r = values[9]
         x = values[10]
-        timeout= values[11]
+        timeout= values[11] 
         z = values[12]
         i = values[13]
         w = values[14]
-        endscore = values[15]
+        endscore = values[15]   #used for LSD
         startscore = values[16]
         starttime = values[17]
         endtime = values[18]
-        p2 = values[19]
-        p3 = values[20]
+        p1 = values[19]
+        p2 = values[20]
+        p3 = values[21]
       
-        query = query.format(s,p,g,a,b,c,d,e,f,r,x,timeout,z,i,w,endscore,startscore,starttime,endtime,p2,p3)
+        query = query.format(s,g,p,a,b,c,d,e,f,r,x,timeout,z,i,w,endscore,startscore,starttime,endtime,p1,p2,p3)
         self.__cursor.execute(query) # execute the query
         self.__connection.commit() # commit the update
 
@@ -90,14 +91,18 @@ class Repository:
 
     # orders db in terms of score (descending) then selects every state file from the current session
     def getStatesRanked(self,pymooParams, sessionNumber): #required to do: need to figure out a way to keep track of session
-        GA_P1 = pymooParams[7]
-        GA_P2 = pymooParams[8]
-        GA_P3 = pymooParams[9]
-        query = "SELECT stateFile FROM runAncestry WHERE Sesion = {} ORDER BY ((P1 - {})^2)  +  (P2 - {})^2  +  ((P3 - {})^2)*0.5)) DESC".format(sessionNumber,GA_P1,GA_P2,GA_P3)
+        #P1 = EndScore [15]
+        #P2 = StartScore [16] - EndScore [15]
+        #P3 = StartTime [17] - EndTime [18]
+        
+        GA_P1 = pymooParams[15]
+        GA_P2 = pymooParams[16] - pymooParams[15]
+        GA_P3 = pymooParams[17] - pymooParams[18]
+        query = "SELECT iParam FROM runAncestry WHERE Session = {} ORDER BY ((P1 - {})^2  +  (P2 - {})^2  +  ((P3 - {})^2)*0.5) DESC".format(sessionNumber,GA_P1,GA_P2,GA_P3)
         self.__cursor.execute(query)
         stateFiles = self.__cursor.fetchall()
         return stateFiles
 
-
+#is iParam right?
 
     
