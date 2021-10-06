@@ -8,6 +8,7 @@ dockerimage=dimage
 container=mysql-db
 volume=mysql-vol-cap
 sql_pword=pw
+database=hyperopt
 
 #Flag variables
 wcard=''
@@ -140,7 +141,7 @@ echo -e "\e[1;36mContainer started \e[0m\n"
 
 if [ $updateLocalDB == 'true' ] ; then
 	echo -e "\e[1;36mUpdate local DB specified\e[0m\n"
-	sleep 2
+	sleep 3
 	sudo docker exec -i $container sh -c 'exec mysql -uroot -ppw hyperopt' <./sqlscripts/hyperopt.sql
 	echo -e "\e[1;36mHyperopt database in docker container has been restored\nfrom hyperopt.sql database stored in sqlscripts.\e[0m\n"
 fi
