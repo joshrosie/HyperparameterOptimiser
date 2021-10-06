@@ -45,7 +45,7 @@ class Repository:
         # [id,a,b,c,e,f,r,x]
         # may need to validate input?
         # this implementation may be wrong. If so refer to implementation in https://www.datacamp.com/community/tutorials/mysql-python
-        query = "INSERT INTO runAncestry (aParam, bParam, cParam, eParam, fParam, rParam, xParam) VALUES({},{},{},{},{},{},{})"
+        query = "INSERT INTO runAncestry (aParam, bParam, cParam, eParam, fParam, rParam, xParam, P1, P2, P3) VALUES({},{},{},{},{},{},{},{},{},{})"
         a = values[0]
         b = values[1]
         c = values[2]
@@ -53,7 +53,10 @@ class Repository:
         f = values[4]
         r = values[5]
         x = values[6]
-        query = query.format(a,b,c,e,f,r,x)
+        p1 = values[7]
+        p2 = values[8]
+        p3 = values[9]
+        query = query.format(a,b,c,e,f,r,x,p1,p2,p3)
         self.__cursor.execute(query) # execute the query
         self.__connection.commit() # commit the update
 
@@ -61,13 +64,18 @@ class Repository:
         query = "SELECT * FROM runAncestry WHERE runID = {}".format(id)
         self.__cursor.execute(query)
         run = self.__cursor.fetchall()
-        return run # must be accessed in a for-each loop
+        return run # must be accessed in a for-each/range based for loop
         
     def getRunRange(self, loBound, upBound):
         query = "SELECT * FROM runAncestry WHERE runID BETWEEN {} AND {}".format(loBound,upBound)
         self.__cursor.execute(query)
         runs = self.__cursor.fetchall()
         return runs
+
+    def getStateMatch(self, paramArray):
+        p1 = paramArray[7]
+        p2 = paramArray[8]
+        p3 = paramArray[9]
         
 
     
