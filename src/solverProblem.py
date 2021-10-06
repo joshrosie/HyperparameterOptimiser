@@ -5,16 +5,25 @@ import Wrapper
 class SolverProblem(ElementwiseProblem):
 
     def __init__(self, **kwargs):
+        # lowerBounds = [0,0,0,0,0,0,0]
+        # lowerBounds.append(Wrapper.getLowerBounds())
+        # upperBounds = [19,19,19,19,19,19,19]
+        # upperBounds.append(Wrapper.getUpperBounds())
+        
         super().__init__(n_var=7,
                          n_obj=1,
                          n_constr=0,
-                         xl=[0,0,0, 0,0,0,0], 
+                         xl=[0,0,0,0,0,0,0], 
                          xu=[19,19,19,19,19,19,19], 
+                         
                          **kwargs)
 
 
     def _evaluate(self, x, out, *args, **kwargs):     
-
+        
+        # self.xl updat
+        # self.xu updat
+        
         cost = Wrapper.getCost(x)
         out["F"] = np.column_stack([cost])
 

@@ -20,7 +20,7 @@ class ParamFunhouse():
                             ]
 
         if lowers is None:     #a #b #c  #e   #f   #r #x #p1 #p2 #p3
-            self.lowerBounds = [1, 1, 10, 0.1, 0.1, 0, 1,  1,  1,  1]
+            self.lowerBounds = [1, 1, 10, 0.1, 0.1, 0, 0,  0,  0,  0]
         else:
             self.lowerBounds = lowers
 
@@ -50,6 +50,7 @@ class ParamFunhouse():
         
         return result
 
+   
     def defaultGen(self):
         for i in range(7):
             print(np.geomspace(self.lowerBounds[i],self.upperBounds[i],num=20,dtype=int))
@@ -85,7 +86,8 @@ class ParamFunhouse():
         # B = (GA_2 - arrState_P1s)^2
         # C = ((GA_3 - arrState_P1s)^2) * 0.5
         # D = A+B+C
-        #statefile = np.argmin(D) 
+            D = repo.somethign
+        #stochastic acceptance and get statefile
         #could do this here, but would be nicer if repository did it with sql maybe? like repository.getStateFileMatch()
         return closestMatchingStatefile
 

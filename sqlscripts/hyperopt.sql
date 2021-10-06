@@ -31,6 +31,11 @@ CREATE TABLE `runAncestry` (
   `fParam` int DEFAULT NULL,
   `rParam` int DEFAULT NULL,
   `xParam` int DEFAULT NULL,
+  -- p1
+  -- p2
+  -- p3
+  -- starting statefile
+  -- ending statefile
   `wcard` varchar(50) DEFAULT NULL,
   `finalCost` float DEFAULT NULL,
   PRIMARY KEY (`runID`)

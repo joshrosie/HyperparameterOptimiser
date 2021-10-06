@@ -32,15 +32,6 @@ class GA_Tuner:
             self.problem = problem
 
         if algorithm is None:
-            self.algorithm = GSGA2(
-            pop_size = populationSize,
-            sampling=get_sampling("int_random"),  #Best pop_size is dependent on host's number of cores
-            variant="DE/rand/1/bin",
-            CR=0.9,
-            F=0.8,
-            dither="vector",
-            jitter=False)
-        else:
             self.algorithm = DE(
             pop_size = populationSize,
             sampling=get_sampling("int_random"),  #Best pop_size is dependent on host's number of cores
@@ -49,6 +40,16 @@ class GA_Tuner:
             F=0.8,
             dither="vector",
             jitter=False)
+        else:
+            self.algorithm = GSGA2(
+            pop_size = populationSize,
+            sampling=get_sampling("int_random"),  #Best pop_size is dependent on host's number of cores
+            variant="DE/rand/1/bin",
+            CR=0.9,
+            F=0.8,
+            dither="vector",
+            jitter=False)
+
         
         self.termination = get_termination("n_gen",8)
         self.callback = Callback()
@@ -84,3 +85,11 @@ class GA_Tuner:
     #can add method to extract information/ancestory from result object
     def ancetry(result):
         pass #returns a key-word array to be put as an entry into db as well as output
+
+class callback:
+    def __init__(self) -> None:
+        super().__init__()
+        self.data["best"] = []
+
+    def notify(self, algorithm):
+        self.data["best"].append(algorithm.pop.get("F").min())
