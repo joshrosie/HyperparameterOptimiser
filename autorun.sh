@@ -129,7 +129,7 @@ fi
 #The port number stuff might need to be changed (could cause an error if the client has a container running on that port.
 echo -e "\e[1;36mStarting docker container:\e[0m" $container
 
-sudo docker run -d -p 3306:3306 \
+sudo docker run -d -p 3307:3307 \
 --name=$container \
 -v $volume:/var/lib/mysql \
 --mount type=tmpfs,destination=/mnt/ramdisk \
