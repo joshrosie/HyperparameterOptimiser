@@ -11,6 +11,7 @@ class SolverCallback:
         #increase generation counter/ cumulative timeout.
         #20ms * gen0
         
+        #test123
 
         print("callback for generation: " + algorithm.problem)
         
