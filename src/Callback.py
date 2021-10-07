@@ -15,3 +15,5 @@ class MyCallback(Callback):
 
     def notify(self, algorithm):
         self.data["best"].append(algorithm.pop.get("F").min())
+        print("I should be running every evolution between generations")
+        #update parameter space GA has. ex. 
