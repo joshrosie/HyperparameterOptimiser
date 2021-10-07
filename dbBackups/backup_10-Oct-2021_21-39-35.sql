@@ -23,7 +23,7 @@ DROP TABLE IF EXISTS `runAncestry`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `runAncestry` (
-  `SessionID` int DEFAULT NULL,
+  `Session` int DEFAULT NULL,
   `runID` int NOT NULL AUTO_INCREMENT,
   `Generation` int DEFAULT NULL,
   `PopulationMember` int DEFAULT NULL,
@@ -35,7 +35,7 @@ CREATE TABLE `runAncestry` (
   `fParam` int DEFAULT NULL,
   `rParam` int DEFAULT NULL,
   `xParam` int DEFAULT NULL,
-  `timeoutMs` int DEFAULT NULL,
+  `Timeout` int DEFAULT NULL,
   `zParam` varchar(50) DEFAULT NULL,
   `iParam` varchar(50) DEFAULT NULL,
   `wParam` varchar(50) DEFAULT NULL,
@@ -43,11 +43,10 @@ CREATE TABLE `runAncestry` (
   `StartScore` float DEFAULT NULL,
   `StartTime` float DEFAULT NULL,
   `EndTime` float DEFAULT NULL,
-  `P1` float DEFAULT NULL,
   `P2` float DEFAULT NULL,
   `P3` float DEFAULT NULL,
   PRIMARY KEY (`runID`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -56,7 +55,6 @@ CREATE TABLE `runAncestry` (
 
 LOCK TABLES `runAncestry` WRITE;
 /*!40000 ALTER TABLE `runAncestry` DISABLE KEYS */;
-INSERT INTO `runAncestry` VALUES (1,2,1,1,1,1,1,1,1,1,1,1,1,'c','b','a',4,2,1,1,2,2,2),(0,3,1,2,3,4,5,6,7,8,9,10,11,'12','13','14',15,16,17,18,19,20,1),(0,4,4,5,6,7,8,9,17,18,19,110,111,'112','113','114',115,116,117,118,119,120,4);
 /*!40000 ALTER TABLE `runAncestry` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -69,4 +67,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-10-06 20:44:26
+-- Dump completed on 2021-10-06 19:39:36

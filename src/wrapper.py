@@ -15,14 +15,18 @@ timeoutIt = eval(timeout)/20
 pf = ParamFunhouse()
 
 def main():
-
-        
-    tuner = GA_Tuner.GA_Tuner()
-    result = tuner.geneticAlgorithm()
-    output(tuner.report(result))
-
-
-
+    repo = REPO.Repository()
+    repo.initConnection()
+    repo.insert([0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,1,2,3])
+    repo.insert([0,4,5,6,7,8,9,17,18,19,110,111,112,113,114,115,116,117,118,119,120,4,5,6])
+    tables = repo.showTables()
+    thing = repo.getStatesRanked([0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,7,8,9])
+    for x in thing:
+        print(x)
+    # tuner = GT.GA_Tuner()
+    # result = tuner.geneticAlgorithm()
+    
+    # tuner.report(result)
 
 def mainTest():
     print("entered testing")
