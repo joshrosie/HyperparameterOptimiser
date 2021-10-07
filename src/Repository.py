@@ -84,8 +84,6 @@ class Repository:
         query = "SELECT SessionID FROM runAncestry ORDER BY SessionID DESC LIMIT 1;"
         self.__cursor.execute(query)
         self.__sessionNumber = self.__cursor.fetchall()[0][0] + 1
-        
-
 
     def getRun(self, id):
         query = "SELECT * FROM runAncestry WHERE runID = {}".format(id)
