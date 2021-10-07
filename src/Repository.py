@@ -64,7 +64,7 @@ class Repository:
         f = values[8]
         r = values[9]
         x = values[10]
-        timeout= values[11] 
+        timeout = values[11] 
         z = values[12]
         i = values[13]
         w = values[14]
@@ -103,14 +103,13 @@ class Repository:
         #P2 = StartScore [16] - EndScore [15]
         #P3 = StartTime [17] - EndTime [18]
         
-        GA_P1 = pymooParams[15]
+        GA_P1 = pymooParams[15] # is p123 actuall parameters that pymoo optimises?
         GA_P2 = pymooParams[16] - pymooParams[15]
         GA_P3 = pymooParams[17] - pymooParams[18]
-        query = "SELECT iParam FROM runAncestry WHERE SessionID = {} ORDER BY ((P1 - {})^2  +  (P2 - {})^2  +  ((P3 - {})^2)*0.5) DESC".format(self.__sessionNumber,GA_P1,GA_P2,GA_P3)
+        query = "SELECT iParam FROM runAncestry WHERE SessionID = {} ORDER BY ((P1 - {})^2  +  (P2 - {})^2  +  ((P3 - {})^2)*0.5)".format(self.__sessionNumber,GA_P1,GA_P2,GA_P3)
         self.__cursor.execute(query)
         stateFiles = self.__cursor.fetchall()
         return stateFiles
 
 #is iParam right?
 
-    
