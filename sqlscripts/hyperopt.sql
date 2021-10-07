@@ -36,7 +36,6 @@ CREATE TABLE `runAncestry` (
   `rParam` int DEFAULT NULL,
   `xParam` int DEFAULT NULL,
   `Timeout` int DEFAULT NULL,
-<<<<<<< HEAD
   `zParam` VARCHAR(50),
   `iParam` VARCHAR(50),
   `wParam` VARCHAR(50),
@@ -47,17 +46,6 @@ CREATE TABLE `runAncestry` (
   `P1` FLOAT DEFAULT NULL,
   `P2` FLOAT DEFAULT NULL,
   `P3` FLOAT DEFAULT NULL,
-=======
-  `zParam` varchar(50) DEFAULT NULL,
-  `iParam` varchar(50) DEFAULT NULL,
-  `wParam` varchar(50) DEFAULT NULL,
-  `EndScore` float DEFAULT NULL,
-  `StartScore` float DEFAULT NULL,
-  `StartTime` float DEFAULT NULL,
-  `EndTime` float DEFAULT NULL,
-  `P2` float DEFAULT NULL,
-  `P3` float DEFAULT NULL,
->>>>>>> e3c74009a1461e425a2d42b03cfc865e25be9949
   PRIMARY KEY (`runID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
