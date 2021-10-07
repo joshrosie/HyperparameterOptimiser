@@ -12,6 +12,7 @@ class Repository:
     __database = None
     __connection = None
     __cursor = None
+    __sessionNumber = None
 
 # Test
 # Constructor:
@@ -29,7 +30,8 @@ class Repository:
         self.__hostName = hostName
         self.__userName = userName
         self.__password = password
-        self.__database = database   
+        self.__database = database
+           
  
     def initConnection(self):
         self.__connection = mysql.connect(
@@ -39,6 +41,7 @@ class Repository:
             database = self.__database
         )
         self.__cursor = self.__connection.cursor()
+        self.deriveSessionNumber()
 
     def showTables(self):
         self.__cursor.execute("SHOW TABLES")
@@ -49,7 +52,7 @@ class Repository:
         # [id,a,b,c,e,f,r,x]
         # may need to validate input?
         # this implementation may be wrong. If so refer to implementation in https://www.datacamp.com/community/tutorials/mysql-python
-        query = "INSERT INTO runAncestry (Session, Generation, PopulationMember, aParam, bParam, cParam, dParam,eParam, fParam, rParam, xParam, Timeout, zParam, iParam, wParam, EndScore, StartScore, StartTime, EndTime, P1, P2, P3) VALUES({},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{})"
+        query = "INSERT INTO runAncestry (SessionID, Generation, PopulationMember, aParam, bParam, cParam, dParam,eParam, fParam, rParam, xParam, timeoutMs, zParam, iParam, wParam, EndScore, StartScore, StartTime, EndTime, P1, P2, P3) VALUES({},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{})"
         s = values[0] #keep track of session number to discern which files are valid input files
         g = values[1] # not sure
         p = values[2] # not sure       
@@ -76,6 +79,13 @@ class Repository:
         query = query.format(s,g,p,a,b,c,d,e,f,r,x,timeout,z,i,w,endscore,startscore,starttime,endtime,p1,p2,p3)
         self.__cursor.execute(query) # execute the query
         self.__connection.commit() # commit the update
+    
+    def deriveSessionNumber(self):
+        query = "SELECT SessionID FROM runAncestry ORDER BY SessionID DESC LIMIT 1;"
+        self.__cursor.execute(query)
+        self.__sessionNumber = self.__cursor.fetchall()[0][0] + 1
+        
+
 
     def getRun(self, id):
         query = "SELECT * FROM runAncestry WHERE runID = {}".format(id)
@@ -90,7 +100,7 @@ class Repository:
         return runs
 
     # orders db in terms of score (descending) then selects every state file from the current session
-    def getStatesRanked(self,pymooParams, sessionNumber): #required to do: need to figure out a way to keep track of session
+    def getStatesRanked(self,pymooParams): #required to do: need to figure out a way to keep track of session
         #P1 = EndScore [15]
         #P2 = StartScore [16] - EndScore [15]
         #P3 = StartTime [17] - EndTime [18]
@@ -98,7 +108,7 @@ class Repository:
         GA_P1 = pymooParams[15]
         GA_P2 = pymooParams[16] - pymooParams[15]
         GA_P3 = pymooParams[17] - pymooParams[18]
-        query = "SELECT iParam FROM runAncestry WHERE Session = {} ORDER BY ((P1 - {})^2  +  (P2 - {})^2  +  ((P3 - {})^2)*0.5)".format(sessionNumber,GA_P1,GA_P2,GA_P3)
+        query = "SELECT iParam FROM runAncestry WHERE SessionID = {} ORDER BY ((P1 - {})^2  +  (P2 - {})^2  +  ((P3 - {})^2)*0.5)".format(self.__sessionNumber,GA_P1,GA_P2,GA_P3)
         self.__cursor.execute(query)
         stateFiles = self.__cursor.fetchall()
         return stateFiles
