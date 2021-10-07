@@ -68,13 +68,15 @@ class Repository:
         z = values[12]
         i = values[13]
         w = values[14]
-        endscore = values[15]   #used for LSD
-        startscore = values[16]
-        starttime = values[17]
-        endtime = values[18]
-        p1 = values[19]
-        p2 = values[20]
-        p3 = values[21]
+        endscore = values[15]   #used for LSD # A #P1
+        startscore = values[16] #B
+        starttime = values[17] #C
+        endtime = values[18] #D
+        improvement = values[19] #E
+        stucktime = values[20] #F
+        # p1 = values[19]
+        # p2 = values[20]
+        # p3 = values[21]
       
         query = query.format(s,g,p,a,b,c,d,e,f,r,x,timeout,z,i,w,endscore,startscore,starttime,endtime,p1,p2,p3)
         self.__cursor.execute(query) # execute the query
@@ -110,19 +112,20 @@ class Repository:
         GA_P2 = pymooParams[1] #p2 = E #improvement
         GA_P3 = pymooParams[2] #p3 = F #stucktime
         
-        GA_P1 = pymooParams[15] # is p123 actuall parameters that pymoo optimises? #kiera: yeah
-        GA_P2 = pymooParams[16] - pymooParams[15]
-        GA_P3 = pymooParams[17] - pymooParams[18]
-            #order by (GA_P1 - EndScore)^2 + (GA_P2 - (EndScore - startScore )^2 + one for P3 etc.)
+        # GA_P1 = pymooParams[15] # is p123 actuall parameters that pymoo optimises? #kiera: yeah
+        # GA_P2 = pymooParams[16] - pymooParams[15]
+        # GA_P3 = pymooParams[17] - pymooParams[18]
+        
+            #select statefileName (output file that had those results saved, might be -w param) order by (GA_P1 - EndScore)^2 + (GA_P2 - (EndScore - startScore )^2 + one for P3 etc.)
         query = "SELECT iParam FROM runAncestry WHERE SessionID = {} ORDER BY ((P1 - {})^2  +  (P2 - {})^2  +  ((P3 - {})^2)*0.5)".format(self.__sessionNumber,GA_P1,GA_P2,GA_P3)
         self.__cursor.execute(query)
         stateFiles = self.__cursor.fetchall()
         return stateFiles
 
  #needed to keep pymoo's parameters up to date
-    def getMin(p):
+    def getMin(p): 
         pass
-        #given p eg. 'a' find the min a for this session
+        #given p eg. 'a' find the min a for this session return a int/float/value
         
     def getMax(p):
         #given p eg. 'a' find the max a for this session
