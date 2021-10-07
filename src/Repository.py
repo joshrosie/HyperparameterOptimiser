@@ -105,14 +105,28 @@ class Repository:
         #P2 = StartScore [16] - EndScore [15]
         #P3 = StartTime [17] - EndTime [18]
         
-        GA_P1 = pymooParams[15] # is p123 actuall parameters that pymoo optimises?
+        #Kiera: pymooparams = p1 p2 p3
+        GA_P1 = pymooParams[0] #p1 = A #endscore
+        GA_P2 = pymooParams[1] #p2 = E #improvement
+        GA_P3 = pymooParams[2] #p3 = F #stucktime
+        
+        GA_P1 = pymooParams[15] # is p123 actuall parameters that pymoo optimises? #kiera: yeah
         GA_P2 = pymooParams[16] - pymooParams[15]
         GA_P3 = pymooParams[17] - pymooParams[18]
+            #order by (GA_P1 - EndScore)^2 + (GA_P2 - (EndScore - startScore )^2 + one for P3 etc.)
         query = "SELECT iParam FROM runAncestry WHERE SessionID = {} ORDER BY ((P1 - {})^2  +  (P2 - {})^2  +  ((P3 - {})^2)*0.5)".format(self.__sessionNumber,GA_P1,GA_P2,GA_P3)
         self.__cursor.execute(query)
         stateFiles = self.__cursor.fetchall()
         return stateFiles
 
+ #needed to keep pymoo's parameters up to date
+    def getMin(p):
+        pass
+        #given p eg. 'a' find the min a for this session
+        
+    def getMax(p):
+        #given p eg. 'a' find the max a for this session
+        pass
 #is iParam right?
 
 #confirm input
