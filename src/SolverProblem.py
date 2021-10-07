@@ -1,8 +1,8 @@
-from pymoo.model.problem import Problem
+from pymoo.core.problem import ElementwiseProblem
 import numpy as np
 import Wrapper
 
-class SolverProblem(Problem):
+class SolverProblem(ElementwiseProblem):
 
     def __init__(self, **kwargs):
         super().__init__(n_var=7,
@@ -10,7 +10,6 @@ class SolverProblem(Problem):
                          n_constr=0,
                          xl=[0,0,0, 0,0,0,0], 
                          xu=[19,19,19,19,19,19,19], 
-                         elementwise_evaluation=True,
                          **kwargs)
 
 

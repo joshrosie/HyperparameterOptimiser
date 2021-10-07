@@ -2,7 +2,7 @@
 --
 -- Host: localhost    Database: hyperopt
 -- ------------------------------------------------------
--- Server version	8.0.26
+-- Server version	8.0.26-0ubuntu0.21.04.3
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -23,15 +23,18 @@ DROP TABLE IF EXISTS `runAncestry`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `runAncestry` (
-  `runID` int DEFAULT NULL,
+  `runID` int NOT NULL AUTO_INCREMENT,
   `aParam` int DEFAULT NULL,
   `bParam` int DEFAULT NULL,
   `cParam` int DEFAULT NULL,
   `eParam` int DEFAULT NULL,
   `fParam` int DEFAULT NULL,
   `rParam` int DEFAULT NULL,
-  `xParam` int DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `xParam` int DEFAULT NULL,
+  `wcard` varchar(50) DEFAULT NULL,
+  `finalCost` float DEFAULT NULL,
+  PRIMARY KEY (`runID`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -40,7 +43,7 @@ CREATE TABLE `runAncestry` (
 
 LOCK TABLES `runAncestry` WRITE;
 /*!40000 ALTER TABLE `runAncestry` DISABLE KEYS */;
-INSERT INTO `runAncestry` VALUES (1,10,20,30,40,50,60,70);
+INSERT INTO `runAncestry` VALUES (1,10,20,30,40,50,60,70,'test1.wcard',100);
 /*!40000 ALTER TABLE `runAncestry` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -53,4 +56,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-09-01 14:49:20
+-- Dump completed on 2021-09-18 16:54:48
