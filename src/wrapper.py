@@ -1,20 +1,11 @@
 import numpy as np
 import subprocess
 import tempfile
-<<<<<<< HEAD
-import sys
-import pymooProblem
-
-#Once we have a better understanding of how we should allow the user to
-# interact with the system (like specifying incremental, accessing ancestry, starting from scratch etc.)
-# then this gathering of arguments from the command line will be more robust and less hard-coded.
-=======
 import sys, os
 from ParamFunhouse import ParamFunhouse
 import GA_Tuner
 import uuid
 import SolverProblem
->>>>>>> ede8e940e6986b73052a31415164aaa3ea68833e
 
 problemCard = sys.argv[1]  #e.g. test1.wcard
 timeout = sys.argv[2]   #e.g. 2 (seconds)
@@ -24,10 +15,6 @@ timeoutIt = eval(timeout)/20
 pf = ParamFunhouse()
 
 def main():
-<<<<<<< HEAD
-    pymooProblem.geneticAlgorithm()
-=======
->>>>>>> ede8e940e6986b73052a31415164aaa3ea68833e
 
         
     tuner = GA_Tuner.GA_Tuner()
