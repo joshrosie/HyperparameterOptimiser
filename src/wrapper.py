@@ -4,7 +4,7 @@ import tempfile
 import sys, os
 from ParamFunhouse import ParamFunhouse
 import GA_Tuner
-import Repository
+import Repository as REPO
 
 
 problemCard = sys.argv[1]  #e.g. test1.wcard

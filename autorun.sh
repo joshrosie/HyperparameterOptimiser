@@ -167,5 +167,5 @@ else
 	wcardPath+="${wcard}"
 	
 	#sudo docker exec -i $container sh -c "python3 -u src/Wrapper.py ${wcardPath} ${timeout} ${incremental}"
-	sudo docker exec -i $container sh -c "python3 -u src/Wrapper.py ${wcardPath} ${timeout}"
+	sudo docker exec -i $container sh -c "python3 -u src/wrapper.py ${wcardPath} ${timeout}"
 fi

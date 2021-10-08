@@ -45,7 +45,7 @@ class ParamFunhouse():
         for i in range(7):
             result.append(self.parameterSet[i][array[i]])
         
-        stateFile = getStateMatch(array[7],array[8],array[9])   # returns name of statefile that can be passed in as carlSAT argument
+        stateFile = self.getStateMatch(array[7],array[8],array[9])   # returns name of statefile that can be passed in as carlSAT argument
         result.append(stateFile)   
         
         return result
@@ -86,9 +86,10 @@ class ParamFunhouse():
         # B = (GA_2 - arrState_P1s)^2
         # C = ((GA_3 - arrState_P1s)^2) * 0.5
         # D = A+B+C
-            D = repo.somethign
+        #D = repo.somethign
         #stochastic acceptance and get statefile
         #could do this here, but would be nicer if repository did it with sql maybe? like repository.getStateFileMatch()
-        return closestMatchingStatefile
+        #return closestMatchingStatefile
+        pass
 
 
