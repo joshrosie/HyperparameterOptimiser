@@ -30,6 +30,7 @@ OPTIONS:
 -i\t\tEnable run container interactively, default = false. Must be specified if not passing -w and -t flag.
 -u\t\tUpdate local hyperopt database with gitLab synched sqlscripts/hyperopt.sql DB, default = false
 -f\t\tRemove associated docker image and rebuild from scratch. i.e. docker image is purged\n
+-h\t\tDisplay this help message
 NOTE:
 The -i flag is mutually exclusive from the -w, -y and -t flags. The -i flag will not directly call the Wrapper class
 as interactive mode is intended for development and debugging. If -i is not passed, the docker container will run as a Daemon
@@ -66,6 +67,8 @@ while getopts :w:t:ifuy flag; do
 		u) updateLocalDB='true'
 			;;
 		y) incremental='true'
+			;;
+		h) print_usage
 			;;
     	*) echo -e "Invalid option: -${flag}"
 			print_usage
