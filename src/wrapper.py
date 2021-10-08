@@ -3,7 +3,7 @@ import subprocess
 import tempfile
 import sys, os
 from ParamFunhouse import ParamFunhouse
-import GA_Tuner
+import GA_Tuner as GT
 import Repository as REPO
 
 
@@ -16,14 +16,14 @@ pf = ParamFunhouse()
 def main():
     repo = REPO.Repository()
     repo.initConnection()
-    repo.insert([0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,1,2,3])
-    repo.insert([0,4,5,6,7,8,9,17,18,19,110,111,112,113,114,115,116,117,118,119,120,4,5,6])
+    repo.insert([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,1,2,3])
+    repo.insert([4,5,6,7,8,9,17,18,19,110,111,112,113,114,115,116,117,118,119,120,4,5,6])
     tables = repo.showTables()
     thing = repo.getStatesRanked([0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,7,8,9])
-    for x in thing:
-        print(x)
-    # tuner = GT.GA_Tuner()
-    # result = tuner.geneticAlgorithm()
+    # for x in thing:
+    #     print(x)
+    tuner = GT.GA_Tuner()
+    result = tuner.geneticAlgorithm()
     
     # tuner.report(result)
 
@@ -48,7 +48,7 @@ def mainTest():
 
 #this takes in pymoo parameters, runs the solver with those parameters
 #extracts the objectives and returns the calculated cost(s) associated with that run
-def getCost(pymooParams, auto): #repo writes
+def getCost(pymooParams): #repo writes
     #convert pymoo parameters into carlsat parameters
     carlSATparams = pf.getParameters(pymooParams)
     resultFile = runCarlSAT(carlSATparams)
@@ -59,10 +59,10 @@ def getCost(pymooParams, auto): #repo writes
 
 def runCarlSAT(p, entry):
     
-    inc(outputNum, entry) #repo's autonumber or something
+  # inc(outputNum, entry) #repo's autonumber or something
     
     sParamString = '-a {} -b {} -c {} -e {} -f {} -r {} -x {}'.format( p[0], p[1], p[2], p[3], p[4], p[5], p[6]) #TV
-    sArguments = '-m {} -v 2 -z {} -i {} -w {}'.format(timeoutIt, problemCard, p[7], outputNum)
+    sArguments = '-m {} -v 2 -z {} -i {} -w {}'.format(timeoutIt, problemCard, p[7])
     sRunLine = './CarlSAT ' + sParamString + ' ' + sArguments
     
     tempf = tempfile.NamedTemporaryFile(delete=False)

@@ -1,22 +1,22 @@
 from pymoo.algorithms.soo.nonconvex.de import DE
 from pymoo.core.problem import starmap_parallelized_eval
 #test
-from pymoo.algorithms.so_de import DE
-from pymoo.algorithms.nsga2 import NSGA2
+#from pymoo.algorithms.so_de import DE
+#from pymoo.algorithms.nsga2 import NSGA2
 import matplotlib.pyplot as plt
 import numpy as np
 
 
 from pymoo.optimize import minimize
-from pymoo.configuration import Configuration
+#from pymoo.configuration import Configuration
 from pymoo.factory import get_termination, get_sampling
 from pymoo.core.callback import Callback
-from multiprocessing.pool import ThreadPool
-from Callback import Callback
 
-Configuration.show_compile_hint = False
+from multiprocessing.pool import ThreadPool
+
+#Configuration.show_compile_hint = False
 import numpy as np
-import SolverProblem as SP
+import solverProblem as SP
 import copy
 
 class GA_Tuner:
@@ -86,7 +86,7 @@ class GA_Tuner:
     def ancetry(result):
         pass #returns a key-word array to be put as an entry into db as well as output
 
-class callback:
+class callback(Callback):
     def __init__(self) -> None:
         super().__init__()
         self.data["best"] = []

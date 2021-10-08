@@ -53,32 +53,33 @@ class Repository:
         # may need to validate input?
         # this implementation may be wrong. If so refer to implementation in https://www.datacamp.com/community/tutorials/mysql-python
         query = "INSERT INTO runAncestry (SessionID, Generation, PopulationMember, aParam, bParam, cParam, dParam,eParam, fParam, rParam, xParam, timeoutMs, zParam, iParam, wParam, EndScore, StartScore, StartTime, EndTime, P1, P2, P3) VALUES({},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{})"
-        s = values[0] #keep track of session number to discern which files are valid input files
-        g = values[1] # not sure
-        p = values[2] # not sure       
-        a = values[3] # standard params
-        b = values[4]
-        c = values[5]
-        d = values[6] 
-        e = values[7]
-        f = values[8]
-        r = values[9]
-        x = values[10]
-        timeout = values[11] 
-        z = values[12]
-        i = values[13]
-        w = values[14]
-        endscore = values[15]   #used for LSD # A #P1
-        startscore = values[16] #B
-        starttime = values[17] #C
-        endtime = values[18] #D
-        improvement = values[19] #E
-        stucktime = values[20] #F
-        # p1 = values[19]
-        # p2 = values[20]
-        # p3 = values[21]
+       # s = values[0] #keep track of session number to discern which files are valid input files
+        
+        g = values[0] # not sure
+        p = values[1] # not sure       
+        a = values[2] # standard params
+        b = values[3]
+        c = values[4]
+        d = values[5] 
+        e = values[6]
+        f = values[7]
+        r = values[8]
+        x = values[9]
+        timeout = values[10] 
+        z = values[11]
+        i = values[12]
+        w = values[13]
+        endscore = values[14]   #used for LSD # A #P1
+        startscore = values[15] #B
+        starttime = values[16] #C
+        endtime = values[17] #D
+       # improvement = values[19] #E
+      #  stucktime = values[20] #F
+        p1 = values[18]
+        p2 = values[19]
+        p3 = values[20]
       
-        query = query.format(s,g,p,a,b,c,d,e,f,r,x,timeout,z,i,w,endscore,startscore,starttime,endtime,p1,p2,p3)
+        query = query.format(self.__sessionNumber,g,p,a,b,c,d,e,f,r,x,timeout,z,i,w,endscore,startscore,starttime,endtime,p1,p2,p3)
         self.__cursor.execute(query) # execute the query
         self.__connection.commit() # commit the update
     
@@ -86,7 +87,7 @@ class Repository:
         query = "SELECT SessionID FROM runAncestry ORDER BY SessionID DESC LIMIT 1;"
         self.__cursor.execute(query)
         self.__sessionNumber = self.__cursor.fetchall()[0][0] + 1
-        print(self.__sessionNumber)
+        
         
 
 

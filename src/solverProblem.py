@@ -1,6 +1,6 @@
 from pymoo.core.problem import ElementwiseProblem
 import numpy as np
-import Wrapper
+import wrapper
 
 class SolverProblem(ElementwiseProblem):
 
@@ -18,7 +18,7 @@ class SolverProblem(ElementwiseProblem):
     def _evaluate(self, x, out, *args, **kwargs):     
 
         
-        cost = Wrapper.getCost(x)
+        cost = wrapper.getCost(x)
         out["F"] = np.column_stack([cost])
 
 
