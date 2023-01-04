@@ -2,7 +2,7 @@
 
 CSC3002S Capstone Project
 Group:
-	RSNJOS005 - Josh Rosenthal
+	RSNJOS005 - Joshua Rosenthal
 	FSHJAR002 - Jarred Fisher
 	WLSKIE001 - Kiera Wilson
 
